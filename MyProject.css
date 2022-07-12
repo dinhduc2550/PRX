@@ -1,0 +1,129 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    height: 2000px;
+}
+.welcome{
+    position: absolute;
+    left: 30px;
+    top: 20px;
+    text-transform: uppercase;
+    font-size: 50px;
+    color: rgb(223, 173, 37);
+    z-index: 11;
+}
+header{
+    width: auto;
+    height: 1080px;
+}
+nav{
+    position: fixed;
+    right: 20px;
+    z-index: 10;
+}
+nav ul{
+    float: right;
+}
+nav ul li{
+    float: left;
+    list-style: none;
+    position: relative;
+}
+nav ul li a{
+    color: tomato;
+    display: block;
+    font-size: 22px;
+    padding: 24px 14px;
+    text-decoration: none;
+}
+nav ul li ul{
+    display: none;
+    position: absolute;
+    background-color: white;
+    border-radius: 10px;
+}
+nav ul li:hover ul{
+    display: block;
+}
+nav ul li ul li {
+    width: 120px;
+}
+nav ul li ul li a:hover{
+    background-color: #f3f3f3;
+    color: green;
+    border-radius:10px ;
+}
+.hole{
+    position: absolute;
+    margin: 0;
+    width: 100%;
+    opacity:150%;
+}
+.div1 div {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.intro{
+    font-size: 100px;
+    font-family: Arial, Helvetica, sans-serif;
+    color: hotpink;
+    border-style: solid;
+    float: left;
+    margin-left: 20px;
+}
+
+.h1{
+    color: hotpink;
+    padding-left: 50px;
+    font-size: 50px;
+    display: inline;
+}
+.div1{
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.div2 img{
+    float: right;
+    
+}
+.div2_1 p{
+    float: left;
+    margin-top: 20px;
+    margin-left:30px ;
+    width: 1300px;
+}
+footer{
+    background-color: indigo;
+    margin-bottom: 0px;
+    clear: both;
+    height: 100px;
+}
+footer div{
+    text-align: center;
+    padding-top: 30px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 25px;
+    color: ivory;
+}
+.a1{
+    color: rgb(0, 81, 255);
+    font-size: 7px;
+    
+}
+.a2{
+    color: pink;
+    font-size: 7px;
+    
+}
+.a3 {
+    color: red;
+    font-size: 7px;
+   
+}
+footer div a:hover{
+    color: aqua;
+}

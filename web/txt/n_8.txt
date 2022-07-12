@@ -1,0 +1,7 @@
+Nvidia thông báo sẽ làm cho card đồ họa RTX 3060 mới của họ kém hiệu quả hơn trong việc khai thác tiền điện tử Ethereum. Các trình driver mới đi kèm khi ra mắt GPU vào cuối tháng này sẽ giảm tỷ lệ khai thác Ethereum khoảng 50%, sử dụng phần mềm để phát hiện khai thác tiền điện tử.
+
+Matt Wuebbling, người đứng đầu bộ phận tiếp thị GeForce toàn cầu tại Nvidia cho biết: “Chúng tôi thiết kế GPU GeForce cho game thủ. Tuy nhiên, GPU Nvidia có thể lập trình được. Và người dùng liên tục khám phá các ứng dụng mới cho chúng, từ mô phỏng thời tiết và giải trình tự gen cho đến học sâu và chế tạo người máy. Khai thác tiền điện tử là một trong số đó”.
+
+Thay vào đó, Nvidia sẽ cung cấp một Bộ xử lý khai thác tiền điện tử (CMP) mới cho các “thợ đào” Ethereum. Chúng sẽ bao gồm hiệu suất tốt nhất để khai thác và tiết kiệm, nhưng chúng sẽ không xử lý đồ họa. Nvidia cho biết các sản phẩm CMP này, quan trọng là “không ảnh hưởng đến tính khả dụng của GPU GeForce cho các game thủ”.
+
+Các sản phẩm CMP sẽ không có đầu vào hiển thị để chúng có thể tập trung vào các hệ thống được thiết kế để khai thác. Nvidia cũng đảm bảo các CMP có tần số và điện áp lõi thấp hơn để cải thiện các yêu cầu điện năng lớn liên quan đến khai thác Ethereum. Wuebbling cho biết: “Với CMP, chúng tôi có thể giúp các

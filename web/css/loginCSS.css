@@ -1,0 +1,74 @@
+.div0{
+    padding-left: 17vh;
+
+}
+body{
+    background:linear-gradient(120deg,pink, yellow);
+}
+.div1_1{
+    display: block;
+    height: 3vh;
+    padding-top: 5vh;
+}
+.div1,.div1_1{
+    font-size: 30px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color:black;
+}
+.divRoot{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background:linear-gradient(120deg,rgb(236, 240, 27), rgb(157, 232, 255));
+    border-radius: 10px;
+    width: 40%;
+}
+body{
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+}
+.pass{
+    padding-left: 1vh;
+}
+h1{
+
+    font-size: 60px;
+    text-align: center;
+}
+input{
+    border-radius: 5px;
+    width: 40%;
+    height: 5vh;
+    margin-left: 20px;
+}
+.btn{
+    padding-top: 5vh;
+    display: inline-block;
+
+}
+button{
+    background-color: aliceblue;
+    border-radius: 5px;
+    font-size: 20px;
+}
+.btn1{
+    padding-left: 10vh;
+    float: left;
+    margin-bottom: 6vh;
+}
+button:hover{
+    background:linear-gradient(120deg,rgb(163, 175, 240), rgb(157, 235, 14));
+}
+
+/* Change styles for span and cancel button on extra small screens */
+@media screen and (max-width: 400px) {
+    span.psw {
+        display: block;
+        float: none;
+    }
+    .cancelbtn {
+        width: 100%;
+    }
+}
