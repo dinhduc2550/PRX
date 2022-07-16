@@ -26,7 +26,7 @@
                                 <ol class="carousel-indicators">
                                     <c:forEach items="${productss}" var="pro" varStatus="theCount">
                                         <li data-bs-target="#carouselExampleCaptions" data-bs-slide-to="${theCount.index}" class="active"></li>
-                                        </c:forEach>
+                                    </c:forEach>
                                 </ol>
                                 <div class="carousel-inner">
                                     <c:forEach items="${productss}" var="pro1">

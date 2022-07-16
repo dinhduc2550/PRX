@@ -45,15 +45,15 @@ public class detailControl extends HttpServlet {
             Vector<News> v2 = n.getNews();
             Vector<Product> v3 = new DAOProduct().getTop3Product();
             int v4 = new DAOProduct().getLastIDProduct();
-            request.setAttribute("productss", v3);
-            request.setAttribute("lastID", v4);
+//            request.setAttribute("productss", v3);
+//            request.setAttribute("lastID", v4);
             int id = Integer.parseInt(request.getParameter("newID"));
 
-            News o = n.getNewByID(id);
+            News o = n.getNewsByIDFromXML(id);
 //            System.out.println("=============================== "+id);
             request.setAttribute("id", id);
 //            int type = n.getTypeByID(id);
-            n.setView(id);
+            n.updateViewsOfNewsClicked(id);
             String jspPath = o.getUrlTxt();
             String line;
             DAONews d = new DAONews();
