@@ -6,7 +6,9 @@
 package servletPack;
 
 import DAO.DAONews;
+import DAO.DAOProduct;
 import entity.News;
+import entity.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Vector;
@@ -40,18 +42,70 @@ public class search extends HttpServlet {
             request.setCharacterEncoding("UTF-8");
             String txtSearch = request.getParameter("txt");
             String radio = request.getParameter("typeF1");
+            System.out.println("search type F1========="+radio);
             DAONews d = new DAONews();
-            Vector<News> v = d.getBySearch(txtSearch,radio);
+            int type = 2;
+            if (radio.equals("ProductsF")) {
+                type = 0;
+            } else if (radio.equals("NewsF")) {
+                type = 1;
+            }
+            Vector<News> v = null;
+            Vector<Product> v2 = null;
+            if (type == 1) {
+                v = d.getNextNewsFromXML(1,0,txtSearch);
+            } else if (type == 0) {
+                v2 = new DAOProduct().getListProductByNameFromXML(-1,txtSearch);
+            } else {
+                v = d.getNextNewsFromXML(1,0,txtSearch);
+                v2 = new DAOProduct().getListProductByNameFromXML(-1,txtSearch);
+            }
+            if ( type == 1) {
             for (News o : v) {
                 out.println(" <div class=\"numNews text\" class=\"col\"><img src=\"" + o.getUrlImage() + "\" class=\"img-fluid newsImg\" alt=\"...\">\n"
                         + "                        <div class=\"text-text\">\n"
-                        + "                            <a class=\"detailControl?newID="+o.getId()+"\"\n"
-                        + "                               href=\"\">\n"
+                        + "                            <a class=\" text\"\n"
+                        + "                               href=\"detailControl?newID=" + o.getId() + "\">\n"
                         + "                                " + o.getTitle() + "\n"
                         + "                            </a> \n"
                         + "                        </div>\n"
                         + "                    </div>");
             }
+        } else if(type == 0) {
+            for (Product o : v2) {
+                out.println(" <div class=\"numNews text\" class=\"col\"><img src=\"" + o.getUrlImage() + "\" class=\"img-fluid newsImg\" alt=\"...\">\n"
+                        + "                        <div class=\"text-text\">\n"
+                        + "                            <a class=\" text\"\n"
+                        + "                               href=\"detailControlForProduct?pID=" + o.getpID()+ "\">\n"
+                        + "                                " + o.getpName()+ "\n"
+                        + "                            </a> \n"
+                        + "                        </div>\n"
+                        + "                    </div>");
+            }
+        }
+        else{
+            for (News o : v) {
+                out.println(" <div class=\"numNews text\" class=\"col\"><img src=\"" + o.getUrlImage() + "\" class=\"img-fluid newsImg\" alt=\"...\">\n"
+                        + "                        <div class=\"text-text\">\n"
+                        + "                            <a class=\" text\"\n"
+                        + "                               href=\"detailControl?newID=" + o.getId() + "\">\n"
+                        + "                                " + o.getTitle() + "\n"
+                        + "                            </a> \n"
+                        + "                        </div>\n"
+                        + "                    </div>");
+            }
+            
+            for (Product o : v2) {
+                out.println(" <div class=\"numNews text\" class=\"col\"><img src=\"" + o.getUrlImage() + "\" class=\"img-fluid newsImg\" alt=\"...\">\n"
+                        + "                        <div class=\"text-text\">\n"
+                        + "                            <a class=\" text\"\n"
+                        + "                               href=\"detailControlForProduct?pID=" + o.getpID()+ "\">\n"
+                        + "                                " + o.getpName()+ "\n"
+                        + "                            </a> \n"
+                        + "                        </div>\n"
+                        + "                    </div>");
+            }
+        }
         }
     }
 

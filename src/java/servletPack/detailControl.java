@@ -41,9 +41,9 @@ public class detailControl extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             DAONews n = new DAONews();
-            Vector<News> v = n.getTop3News();
-            Vector<News> v2 = n.getNews();
-            Vector<Product> v3 = new DAOProduct().getTop3Product();
+            Vector<News> v = n.getTop3NewsFromXML();
+            Vector<News> v2 = n.getListNewsFromXML(0);
+            Vector<Product> v3 = new DAOProduct().getTop3ProductsViewsFromXML();
             int v4 = new DAOProduct().getLastIDProduct();
 //            request.setAttribute("productss", v3);
 //            request.setAttribute("lastID", v4);
@@ -66,7 +66,7 @@ public class detailControl extends HttpServlet {
             request.setAttribute("productss", v3);
             request.setAttribute("lastID", v4);
             request.setAttribute("type", 1);
-//            System.out.println("typeeeeeeeeeeeeeeeee================="+type);
+            System.out.println("detailControl=================");
 //        for (News news : v3) {
 //            System.out.println(news.getUrlImage());
 //        }

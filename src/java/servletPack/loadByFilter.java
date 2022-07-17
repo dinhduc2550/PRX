@@ -42,26 +42,27 @@ public class loadByFilter extends HttpServlet {
         PrintWriter out = response.getWriter();
         DAONews d = new DAONews();
         int num = 0;
-        String radio = request.getParameter("exists1");
+        String radio = request.getParameter("filterType");
 //            out.println("<h1>" + radio + "</h1>");
         int type = 2;
         if (radio.equals("ProductsF")) {
             type = 0;
-        } else if (radio.equals("News")) {
+        } else if (radio.equals("NewsF")) {
             type = 1;
         }
         System.out.println("type-FFFF===============" + type);
         Vector<News> v = null;
         Vector<Product> v2 = null;
-        if (type == 2||type==1) {
+        if (type==1) {
             v = d.getListNewsFromXML(0);
-        }  else {
-//            v2 = new DAOProduct().getProductByOffSet(0);
+        }  else if(type == 0) {
                v2 = new DAOProduct().getListProductFromXML(0);
-               System.out.println("Urltessssst==="+v2.get(0).getUrlImage());
+        }else{
+            v = d.getListNewsFromXML(0);
+            v2 = new DAOProduct().getListProductFromXML(0);
         }
 
-        if (type == 2 || type == 1) {
+        if ( type == 1) {
             for (News o : v) {
                 out.println(" <div class=\"numNews text\" class=\"col\"><img src=\"" + o.getUrlImage() + "\" class=\"img-fluid newsImg\" alt=\"...\">\n"
                         + "                        <div class=\"text-text\">\n"
@@ -72,7 +73,30 @@ public class loadByFilter extends HttpServlet {
                         + "                        </div>\n"
                         + "                    </div>");
             }
-        } else {
+        } else if(type == 0) {
+            for (Product o : v2) {
+                out.println(" <div class=\"numNews text\" class=\"col\"><img src=\"" + o.getUrlImage() + "\" class=\"img-fluid newsImg\" alt=\"...\">\n"
+                        + "                        <div class=\"text-text\">\n"
+                        + "                            <a class=\" text\"\n"
+                        + "                               href=\"detailControlForProduct?pID=" + o.getpID()+ "\">\n"
+                        + "                                " + o.getpName()+ "\n"
+                        + "                            </a> \n"
+                        + "                        </div>\n"
+                        + "                    </div>");
+            }
+        }
+        else{
+            for (News o : v) {
+                out.println(" <div class=\"numNews text\" class=\"col\"><img src=\"" + o.getUrlImage() + "\" class=\"img-fluid newsImg\" alt=\"...\">\n"
+                        + "                        <div class=\"text-text\">\n"
+                        + "                            <a class=\" text\"\n"
+                        + "                               href=\"detailControl?newID=" + o.getId() + "\">\n"
+                        + "                                " + o.getTitle() + "\n"
+                        + "                            </a> \n"
+                        + "                        </div>\n"
+                        + "                    </div>");
+            }
+            
             for (Product o : v2) {
                 out.println(" <div class=\"numNews text\" class=\"col\"><img src=\"" + o.getUrlImage() + "\" class=\"img-fluid newsImg\" alt=\"...\">\n"
                         + "                        <div class=\"text-text\">\n"

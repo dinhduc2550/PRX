@@ -22,11 +22,11 @@
         <section class="sectionFilter">
             <!--<form id="myForm" action="" method="get">-->
             <label class="filter">Filter:</label>
-            <input onclick="clickNews()" class="inputF" type="radio" name="filter" id="news" value="NewsF">
+            <input onclick="clickRadioFilter()" class="inputF" type="radio" name="filter" id="news" value="NewsF">
             <label class="inputF1" for="news">News</label>
-            <input onclick="clickNews()" class="inputF" type="radio" name="filter" id="product" value="ProductsF">
+            <input onclick="clickRadioFilter()" class="inputF" type="radio" name="filter" id="product" value="ProductsF">
             <label class="inputF1" for="product">Product</label>
-            <input onclick="clickNews()" class="inputF" type="radio" name="filter" id="show" value="showF" checked="">
+            <input onclick="clickRadioFilter()" class="inputF" type="radio" name="filter" id="show" value="showF" checked="">
             <label class="inputF1" for="show">Show All</label>
             <!--</form>-->
             <input id="txtS" oninput="autoSearch(this)" class="form-control me-2" name="txt" type="search" placeholder="Search" aria-label="Search">
@@ -122,22 +122,25 @@
                             }
                         });
                     }
-                    function clickNews() {
+                    function clickRadioFilter() {
                         var x = document.querySelector('input[name="filter"]:checked').value;
                         $.ajax({
                             url: "/MyProject/loadByFilter",
                             type: "get", //send it through get method
                             data: {
-                                exists1: x
+                                filterType: x
                             },
                             success: function (data) {
                                 var row = document.getElementById("content2");
                                 row.innerHTML = data;
+                               
                             },
                             error: function (xhr) {
                                 //Do Something to handle error
                             }
                         });
+                        document.getElementById("txtS").value = "";
+
                     }
                     function autoSearch(text) {
                         var txtSearch = text.value;
@@ -152,6 +155,8 @@
                             success: function (data) {
                                 var row = document.getElementById("content2");
                                 row.innerHTML = data;
+                                
+                                
                             },
                             error: function (xhr) {
                                 //Do Something to handle error

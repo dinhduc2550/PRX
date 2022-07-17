@@ -42,7 +42,7 @@ public class loadNews extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         int num = Integer.parseInt(request.getParameter("exists"));
         String radio = request.getParameter("typeF1");
-        String search = request.getParameter("searchT");
+        String txtSearch = request.getParameter("searchT");
         System.out.println("radioLLLLLL==========" + radio);
         DAONews d = new DAONews();
         int type = 2;
@@ -51,9 +51,7 @@ public class loadNews extends HttpServlet {
         } else if (radio.equals("NewsF")) {
             type = 1;
         }
-        if (search.equals("")) {
 
-        }
         HttpSession ses = request.getSession();
         Account a = (Account) ses.getAttribute("acc");
 //        if (ses.getAttribute("acc") == null) {
@@ -61,16 +59,53 @@ public class loadNews extends HttpServlet {
 //            return;
 //        }
         System.out.println("typeLLLLLL===============" + type);
-        Vector<News> v = d.getNextNewsFromXML(type, num, search);
+        Vector<News> v = null;
+        Vector<Product> v2 = null;
+        if (type == 1) {
+            v = d.getNextNewsFromXML(1, num, txtSearch);
+        } else if (type == 0) {
+            v2 = new DAOProduct().getListProductByNameFromXML(num, txtSearch);
+            Product p = v2.get(v2.size() - 1);
+            String lastID = ses.getAttribute("lastIDSearched") + "";
+            try {
+                int lastpIDSearch = Integer.parseInt(lastID);
+                System.out.println("lastID===" + lastpIDSearch + "/pID====" + p.getpID());
+
+                if (p.getpID() == lastpIDSearch) {
+                    v2.clear();
+                }
+            } catch (Exception e) {
+                v2 = new DAOProduct().getListProductByNameFromXML(num, txtSearch);
+            } finally {
+                ses.setAttribute("lastIDSearched", p.getpID());
+            }
+
+        } else {
+            v = d.getNextNewsFromXML(1, num, txtSearch);
+            v2 = new DAOProduct().getListProductByNameFromXML(num, txtSearch);
+            Product p = v2.get(v2.size() - 1);
+            String lastID = ses.getAttribute("lastIDSearched") + "";
+            try {
+                int lastpIDSearch = Integer.parseInt(lastID);
+                System.out.println("lastID===" + lastpIDSearch + "/pID====" + p.getpID());
+
+                if (p.getpID() == lastpIDSearch) {
+                    v2.clear();
+                }
+            } catch (Exception e) {
+                v2 = new DAOProduct().getListProductByNameFromXML(num, txtSearch);
+            } finally {
+                ses.setAttribute("lastIDSearched", p.getpID());
+            }
+        }
 //            Vector<News> v = d.getNext(1, 0,"s");
-        System.out.println("searchcccc===============" + search);
+        System.out.println("searchcccc===============" + txtSearch);
+        System.out.println("num===============" + num);
 
         PrintWriter out = response.getWriter();
         if (type == 1) {
             for (News o : v) {
-                out.println(" <div class=\"numNews text\" class=\"col\">"
-                        + "<a href=\"detailControl?newID=" + o.getId() + "\">"
-                        + "<img src=\"" + o.getUrlImage() + "\" class=\"img-fluid newsImg\" alt=\"...\"></a>\n"
+                out.println(" <div class=\"numNews text\" class=\"col\"><img src=\"" + o.getUrlImage() + "\" class=\"img-fluid newsImg\" alt=\"...\">\n"
                         + "                        <div class=\"text-text\">\n"
                         + "                            <a class=\" text\"\n"
                         + "                               href=\"detailControl?newID=" + o.getId() + "\">\n"
@@ -80,26 +115,19 @@ public class loadNews extends HttpServlet {
                         + "                    </div>");
             }
         } else if (type == 0) {
-            Vector<Product> vp = new Vector<>();
-            vp = new DAOProduct().getListProductFromXML(num);
-            for (Product o : vp) {
-                out.println(" <div class=\"numNews text\" class=\"col\">"
-                        + "<a href=\"detailControl?newID=" + o.getpID() + "\">"
-                        + "<img src=\"" + o.getUrlImage() + "\" class=\"img-fluid newsImg\" alt=\"...\"></a>\n"
+            for (Product o : v2) {
+                out.println(" <div class=\"numNews text\" class=\"col\"><img src=\"" + o.getUrlImage() + "\" class=\"img-fluid newsImg\" alt=\"...\">\n"
                         + "                        <div class=\"text-text\">\n"
                         + "                            <a class=\" text\"\n"
-                        + "                               href=\"detailControl?newID=" + o.getpID() + "\">\n"
+                        + "                               href=\"detailControlForProduct?pID=" + o.getpID() + "\">\n"
                         + "                                " + o.getpName() + "\n"
                         + "                            </a> \n"
                         + "                        </div>\n"
                         + "                    </div>");
             }
         } else {
-            System.out.println("herrrrrreee??????1231231231");
             for (News o : v) {
-                out.println(" <div class=\"numNews text\" class=\"col\">"
-                        + "<a href=\"detailControl?newID=" + o.getId() + "\">"
-                        + "<img src=\"" + o.getUrlImage() + "\" class=\"img-fluid newsImg\" alt=\"...\"></a>\n"
+                out.println(" <div class=\"numNews text\" class=\"col\"><img src=\"" + o.getUrlImage() + "\" class=\"img-fluid newsImg\" alt=\"...\">\n"
                         + "                        <div class=\"text-text\">\n"
                         + "                            <a class=\" text\"\n"
                         + "                               href=\"detailControl?newID=" + o.getId() + "\">\n"
@@ -108,15 +136,12 @@ public class loadNews extends HttpServlet {
                         + "                        </div>\n"
                         + "                    </div>");
             }
-             Vector<Product> vp = new Vector<>();
-            vp = new DAOProduct().getListProductFromXML(num);
-            for (Product o : vp) {
-                out.println(" <div class=\"numNews text\" class=\"col\">"
-                        + "<a href=\"detailControl?newID=" + o.getpID() + "\">"
-                        + "<img src=\"" + o.getUrlImage() + "\" class=\"img-fluid newsImg\" alt=\"...\"></a>\n"
+
+            for (Product o : v2) {
+                out.println(" <div class=\"numNews text\" class=\"col\"><img src=\"" + o.getUrlImage() + "\" class=\"img-fluid newsImg\" alt=\"...\">\n"
                         + "                        <div class=\"text-text\">\n"
                         + "                            <a class=\" text\"\n"
-                        + "                               href=\"detailControl?newID=" + o.getpID() + "\">\n"
+                        + "                               href=\"detailControlForProduct?pID=" + o.getpID() + "\">\n"
                         + "                                " + o.getpName() + "\n"
                         + "                            </a> \n"
                         + "                        </div>\n"

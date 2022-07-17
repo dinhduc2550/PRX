@@ -73,7 +73,6 @@ public class updateNewsToDB extends HttpServlet {
 ////        request.setCharacterEncoding("UTF-8");
 //        request.getRequestDispatcher("newsManager.jsp").forward(request, response);
 //    }
-
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -89,6 +88,7 @@ public class updateNewsToDB extends HttpServlet {
         boolean check = true;
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
+        System.out.println("going=================");
         boolean isMultipartContent = ServletFileUpload.isMultipartContent(request);
         if (!isMultipartContent) {
             return;
@@ -103,19 +103,35 @@ public class updateNewsToDB extends HttpServlet {
                 return;
             }
             HashMap<String, String> fh = new HashMap<>();
+            System.out.println("going=================");
             while (it.hasNext()) {
+                System.out.println("going1.1=================");
                 FileItem fileItem = it.next();
                 boolean isFormField = fileItem.isFormField();
+                 System.out.println("going1=================");
                 if (isFormField) {
-                    fh.put(fileItem.getFieldName(), fileItem.getString());
-                    if (file_name == null) {
+                     System.out.println("going1.2=================");
+                    try {
+                        fh.put(fileItem.getFieldName(), fileItem.getString());
+                         if (file_name == null) {
+                         System.out.println("going1.3=================");
                         if (fileItem.getFieldName().equals("file_name")) {
                             file_name = fileItem.getString();
                         }
+                         System.out.println("going1.4=================");
                     }
+                    } catch (Exception e) {
+                        System.err.println("error put data============");
+                    }
+                    System.out.println("going1.22=================");
+                   
+                   
+
                 } else {
                     s = fileItem.getName();
                     System.out.println(s);
+                    System.out.println("going2=================");
+
                     if (fileItem.getSize() > 0) {
                         File f = new File("C:\\Users\\dinhd\\OneDrive\\Java Web\\MyProject\\web\\img\\test\\" + fileItem.getName());
                         if (f.exists() && !f.isDirectory()) {
@@ -128,6 +144,8 @@ public class updateNewsToDB extends HttpServlet {
                     }
                 }
             }
+            System.out.println("going3=================");
+
             DAONews d = new DAONews();
             String id = fh.get("newID");
             String txtA = fh.get("txtA");
@@ -177,14 +195,22 @@ public class updateNewsToDB extends HttpServlet {
                 System.out.println(n1.getPrice());
                 d.updateProduct(n1);
 //                n1.setTitle(fh.get("titleA"));
-
+// News n1 = new News();
+//                n1.setId(Integer.parseInt(id));
+//                n1.setUrlImage(url);
+//                n1.setTitle(fh.get("titleA"));
+//                n1.setUrlTxt(urlTextFile);
+//                n1.setType(1);
+//                n1.setProductName(fh.get("pName"));
+//                n1.setAmount(Integer.parseInt(fh.get("amount")));
+//                n1.setPrice(Float.parseFloat(fh.get("price")));
             }
         } catch (Exception e) {
-            e.printStackTrace();
-        } 
+            System.out.println("errorr================");
+        }
 //          request.getRequestDispatcher("newsControl").forward(request, response);
 
-                  response.sendRedirect("newsControl");
+        response.sendRedirect("newsControl");
     }
 
     /**
