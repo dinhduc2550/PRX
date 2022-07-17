@@ -9,6 +9,7 @@ import DAO.DAONews;
 import DAO.DAOProduct;
 import entity.News;
 import entity.Product;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Vector;
@@ -53,9 +54,11 @@ public class loadByFilter extends HttpServlet {
         Vector<News> v = null;
         Vector<Product> v2 = null;
         if (type == 2||type==1) {
-            v = d.getNews();
+            v = d.getListNewsFromXML(0);
         }  else {
-            v2 = new DAOProduct().getProductByOffSet(0);
+//            v2 = new DAOProduct().getProductByOffSet(0);
+               v2 = new DAOProduct().getListProductFromXML(0);
+               System.out.println("Urltessssst==="+v2.get(0).getUrlImage());
         }
 
         if (type == 2 || type == 1) {

@@ -40,12 +40,17 @@ public class homeControl extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         DAONews n = new DAONews();
-        Vector<News> v = n.getTop3News();
-        Vector<News> v2 = n.getNews();
-        Vector<Product> v3 = new DAOProduct().getTop3Product();
-        int v4 = new DAOProduct().getLastIDProduct();
-       
-       
+        Vector<News> v = n.getTop3NewsFromXML();
+        Vector<News> v2 = n.getListNewsFromXML(0);
+//        Vector<Product> v3 = new DAOProduct().getTop3Product();
+        Vector<Product> v3 = new DAOProduct().getTop3ProductsViewsFromXML();
+
+//        int v4 = new DAOProduct().getLastIDProduct();
+        int v4 = new DAOProduct().getLastIDTopProductsViewsFromXML();
+
+        System.out.println("v3 sizeeeeeeeeeeeeee======="+v3.size());
+        System.out.println("lastID=================="+v4);
+        System.out.println("productIDLast======="+v3.get(2).getpID());
         request.setAttribute("news", v);
         request.setAttribute("newsRight", v2);
         

@@ -7,6 +7,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -18,14 +19,204 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 //import java.util.Scanner;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
+import javax.xml.stream.XMLStreamWriter;
 
 public class DAONews {
 
+    private final String PATH_DATA_NEWS = "I:\\PRX301\\MyProject\\news.xml";
+
+    public Vector<News> getListNewsFromXML(int position) {
+        File file = new File(PATH_DATA_NEWS);
+        Vector<News> listNews = new Vector<>();
+        try {
+            XMLInputFactory factory = XMLInputFactory.newFactory();
+            XMLStreamReader reader = factory.createXMLStreamReader(new FileInputStream(file));
+            News n = new News();
+            while (reader.hasNext()) {
+                int type = reader.next();
+                String urlImg = "";
+                if (type == XMLStreamReader.START_ELEMENT) {
+                    String nameTag = reader.getName().toString();
+
+                    if (nameTag.equals("title")) {
+                        String title = reader.getElementText();
+//                        System.out.println(title);
+                        n.setTitle(title);
+                    }
+                    if (nameTag.equals("news")) {
+                        String id = reader.getAttributeValue("", "id");
+//                        System.out.println("id==" + id);
+                        n.setId(Integer.parseInt(id));
+                    }
+                    if (nameTag.equals("urlImg")) {
+                        urlImg = reader.getElementText();
+                        n.setUrlImage(urlImg);
+//                        System.out.println("url===1 " + n.getUrlImage());
+                    }
+
+                    if (nameTag.equals("type")) {
+                        String active = reader.getElementText();
+                        n.setType(Integer.parseInt(active));
+                    }
+                    if (nameTag.equals("view")) {
+                        String view = reader.getElementText();
+//                        System.out.println("content view: " + view);
+                        n.setView(Integer.parseInt(view));
+
+                    }
+                    if (nameTag.equals("userID")) {
+                        String uID = reader.getElementText();
+//                        n.set(Integer.parseInt(uID));
+                    }
+                    if (nameTag.equals("urlTxt")) {
+                        String urlTxt = reader.getElementText();
+                        n.setUrlTxt(urlTxt);
+                    }
+                    if (nameTag.equals("productID")) {
+                        String id = reader.getElementText();
+                        Product p = new DAOProduct().getProductByIDFromXML(Integer.parseInt(id));
+                        if (p != null) {
+                            n.setProductName(p.getpName());
+                        }
+                        listNews.add(n);
+                        n = new News();
+                    }
+                }
+
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(DAOProduct.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (XMLStreamException ex) {
+            Logger.getLogger(DAOProduct.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return listNews;
+    }
+
+    public Vector<News> getTop3NewsFromXML() {
+        Vector<News> listNews = new DAONews().getListNewsFromXML(-1);
+        listNews.sort(Comparator.comparing(a -> a.getView()));
+        Vector<News> listNews2 = new Vector<>();
+        Collections.reverse(listNews);
+        try {
+            for (int i = 0; i < 3; i++) {
+                listNews2.add(listNews.get(i));
+            }
+        } catch (Exception e) {
+        }
+        return listNews2;
+    }
+
+    public Vector<News> getNextNewsFromXML(int type, int position, String txtSearch) {
+        Vector<News> listNews = new DAONews().getListNewsFromXML(-1);
+        Vector<News> listNews2 = new Vector<>();
+        try {
+            for (int i = 0; i < 6; i++) {
+                try {
+                    if (!txtSearch.isEmpty()) {
+                        News n = listNews.get(i + position);
+                        if (n.getTitle().contains(txtSearch)) {
+                            listNews2.add(listNews.get(i + position));
+                        }
+
+                    } else {
+                        listNews2.add(listNews.get(i + position));
+                    }
+                } catch (Exception e) {
+                    break;
+                }
+            }
+        } catch (Exception e) {
+        }
+        return listNews2;
+    }
+
+    public News getNewsByIDFromXML(int newsID) {
+        Vector<News> listNews = new DAONews().getListNewsFromXML(-1);
+        for (News n : listNews) {
+            if (n.getId() == newsID) {
+                return n;
+            }
+        }
+        return new News();
+    }
+
+    public void writeNewsToXML(Vector<News> listNews) {
+        try {
+            XMLOutputFactory outFactory = XMLOutputFactory.newFactory();
+            XMLStreamWriter writer
+                    = outFactory.createXMLStreamWriter(new FileOutputStream(PATH_DATA_NEWS));
+            writer.writeStartDocument("UTF-8", "1.0");
+            writer.writeStartElement("catalog");
+            for (News n : listNews) {
+
+                writer.writeStartElement("news");
+                writer.writeAttribute("id", n.getId() + "");
+
+                writer.writeStartElement("urlImg");
+                writer.writeCharacters(n.getUrlImage());
+                writer.writeEndElement();
+
+                writer.writeStartElement("view");
+                writer.writeCharacters(n.getView() + "");
+                writer.writeEndElement();
+
+                writer.writeStartElement("title");
+                writer.writeCharacters(n.getTitle());
+                writer.writeEndElement();
+
+                writer.writeStartElement("urlTxt");
+                writer.writeCharacters(n.getUrlTxt() + "");
+                writer.writeEndElement();
+
+                writer.writeStartElement("type");
+                writer.writeCharacters(n.getType() + "");
+                writer.writeEndElement();
+
+                writer.writeStartElement("userID");
+                writer.writeCharacters("1");
+                writer.writeEndElement();
+
+                writer.writeStartElement("productID");
+                writer.writeCharacters("-1");
+                writer.writeEndElement();
+
+                writer.writeEndElement();
+            }
+
+            writer.writeEndElement();
+            writer.writeEndDocument();
+
+            writer.close();
+        } catch (XMLStreamException | FileNotFoundException ex) {
+        }
+    }
+
+    //when user click to news, view will be increase 1 unit
+    public void updateViewsOfNewsClicked(int newsID){
+        Vector<News> listNews = new DAONews().getListNewsFromXML(-1);
+        for (News n : listNews) {
+            if(n.getId()==newsID){
+                int views = n.getView();
+                n.setView(++views);
+                break;
+            }
+        }
+        new DAONews().writeNewsToXML(listNews);
+    }
+    
     Connection conn;
 
     private void initConnection() {
@@ -806,8 +997,8 @@ public class DAONews {
             } catch (SQLException ex) {
                 Logger.getLogger(DAONews.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }else{
-             try {
+        } else {
+            try {
                 PreparedStatement ps = conn.prepareStatement(sql);
                 ps.setString(1, title);
                 ps.setString(2, urlTextFile);

@@ -10,7 +10,7 @@ package entity;
  * @author dinhd
  */
 public class Product {
-     private int pID,uID;
+    private int pID,uID;
     private String urlImage;
     private int amount;
     private float price;

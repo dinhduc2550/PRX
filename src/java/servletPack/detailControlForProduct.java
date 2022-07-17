@@ -56,9 +56,8 @@ public class detailControlForProduct extends HttpServlet {
             
             DAOProduct dp = new DAOProduct();
             
-            Product o = dp.getProductByProductID(id);
-//            System.out.println(o.toString());
-            
+            Product o = dp.getProductByIDFromXML(id);
+            if(o==null) System.out.println("null================");
             request.setAttribute("id", id);
             dp.setView(id);
             

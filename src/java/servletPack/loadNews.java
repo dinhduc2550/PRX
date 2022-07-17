@@ -61,7 +61,7 @@ public class loadNews extends HttpServlet {
 //            return;
 //        }
         System.out.println("typeLLLLLL===============" + type);
-        Vector<News> v = d.getNextHomePage(type, num, search);
+        Vector<News> v = d.getNextNewsFromXML(type, num, search);
 //            Vector<News> v = d.getNext(1, 0,"s");
         System.out.println("searchcccc===============" + search);
 
@@ -81,7 +81,7 @@ public class loadNews extends HttpServlet {
             }
         } else if (type == 0) {
             Vector<Product> vp = new Vector<>();
-            vp = new DAOProduct().getProductByOffSet(num);
+            vp = new DAOProduct().getListProductFromXML(num);
             for (Product o : vp) {
                 out.println(" <div class=\"numNews text\" class=\"col\">"
                         + "<a href=\"detailControl?newID=" + o.getpID() + "\">"
@@ -95,6 +95,7 @@ public class loadNews extends HttpServlet {
                         + "                    </div>");
             }
         } else {
+            System.out.println("herrrrrreee??????1231231231");
             for (News o : v) {
                 out.println(" <div class=\"numNews text\" class=\"col\">"
                         + "<a href=\"detailControl?newID=" + o.getId() + "\">"
@@ -108,7 +109,7 @@ public class loadNews extends HttpServlet {
                         + "                    </div>");
             }
              Vector<Product> vp = new Vector<>();
-            vp = new DAOProduct().getProductByOffSet(num);
+            vp = new DAOProduct().getListProductFromXML(num);
             for (Product o : vp) {
                 out.println(" <div class=\"numNews text\" class=\"col\">"
                         + "<a href=\"detailControl?newID=" + o.getpID() + "\">"
