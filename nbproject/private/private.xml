@@ -18,5 +18,28 @@
             <file>file:/I:/PRX301/MyProject/src/java/servletPack/loadNews.java</file>
             <file>file:/I:/PRX301/MyProject/src/java/testAlgo/test1.java</file>
         </group>
+        <group>
+            <file>file:/C:/Users/Nam/Documents/GitHub/PRX/src/java/servletPack/accountControl.java</file>
+            <file>file:/C:/Users/Nam/Documents/GitHub/PRX/src/java/entity/Account.java</file>
+            <file>file:/C:/Users/Nam/Documents/GitHub/PRX/src/java/ForNews/addNewByProduct.java</file>
+            <file>file:/C:/Users/Nam/Documents/GitHub/PRX/src/java/servletPack/Upload.java</file>
+            <file>file:/C:/Users/Nam/Documents/GitHub/PRX/src/java/servletPack/homeControl.java</file>
+            <file>file:/C:/Users/Nam/Documents/GitHub/PRX/src/java/DAO/DAOHistory.java</file>
+            <file>file:/C:/Users/Nam/Documents/GitHub/PRX/src/java/connection/DBConnection.java</file>
+            <file>file:/C:/Users/Nam/Documents/GitHub/PRX/src/java/servletPack/showInfoToAccountControl.java</file>
+            <file>file:/C:/Users/Nam/Documents/GitHub/PRX/src/java/servletPack/saveInfoToDB.java</file>
+            <file>file:/C:/Users/Nam/Documents/GitHub/PRX/src/java/forProduct/addProductToDB.java</file>
+            <file>file:/C:/Users/Nam/Documents/GitHub/PRX/src/java/servletPack/showInfo.java</file>
+            <file>file:/C:/Users/Nam/Documents/GitHub/PRX/src/java/servletPack/showImages.java</file>
+            <file>file:/C:/Users/Nam/Documents/GitHub/PRX/src/java/DAO/DAONews.java</file>
+            <file>file:/C:/Users/Nam/Documents/GitHub/PRX/src/java/servletPack/purchaseControl.java</file>
+            <file>file:/C:/Users/Nam/Documents/GitHub/PRX/src/java/DAO/DAOProduct.java</file>
+            <file>file:/C:/Users/Nam/Documents/GitHub/PRX/src/java/DAO/DAOAccount.java</file>
+            <file>file:/C:/Users/Nam/Documents/GitHub/PRX/src/java/servletPack/search.java</file>
+            <file>file:/C:/Users/Nam/Documents/GitHub/PRX/src/java/testAlgo/test1.java</file>
+            <file>file:/C:/Users/Nam/Documents/GitHub/PRX/src/java/DAO/ConnectDB.java</file>
+            <file>file:/C:/Users/Nam/Documents/GitHub/PRX/src/java/servletPack/addNewToDB.java</file>
+            <file>file:/C:/Users/Nam/Documents/GitHub/PRX/src/java/servletPack/filterAccount.java</file>
+        </group>
     </open-files>
 </project-private>

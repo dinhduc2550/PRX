@@ -7,6 +7,11 @@ package DAO;
 
 import connection.DBConnection;
 import entity.Account;
+import entity.News;
+import entity.Product;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -17,6 +22,9 @@ import java.text.SimpleDateFormat;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 import servletPack.saveInfoToDB;
 
 /**
@@ -36,6 +44,88 @@ public class DAOAccount {
 
     public DAOAccount() {
         initConnection();
+    }
+
+    public Vector<Account> getListAccountsFromXML(int position) throws ParseException {
+        File file = new File("C:\\Users\\Nam\\Documents\\GitHub\\PRX\\account.xml");
+        Vector<Account> listAccounts = new Vector<>();
+        try {
+            XMLInputFactory factory = XMLInputFactory.newFactory();
+            XMLStreamReader reader = factory.createXMLStreamReader(new FileInputStream(file));
+            Account acc = new Account();
+            while (reader.hasNext()) {
+                int type = reader.next();
+                if (type == XMLStreamReader.START_ELEMENT) {
+                    String nameTag = reader.getName().toString();
+
+                    if (nameTag.equals("account")) {
+                        String id = reader.getAttributeValue("", "id");
+                        acc.setId(Integer.parseInt(id));
+                    }
+                    if (nameTag.equals("name")) {
+                        String name = reader.getElementText();
+                        acc.setName(name);
+                    }
+
+                    if (nameTag.equals("pass")) {
+                        String pass = reader.getElementText();
+                        acc.setPass(pass);
+                    }
+                    if (nameTag.equals("role")) {
+                        String role = reader.getElementText();
+                        acc.setRole(role);
+
+                    }
+                    if (nameTag.equals("active")) {
+                        String active = reader.getElementText();
+                        acc.setActive(Integer.parseInt(active));
+                    }
+                    if (nameTag.equals("pName")) {
+                        String pName = reader.getElementText();
+                        acc.setpName(pName);
+                    }
+                    if (nameTag.equals("address")) {
+                        String address = reader.getElementText();
+                        acc.setAddress(address);
+                    }
+                    if (nameTag.equals("phone")) {
+                        String phone = reader.getElementText();
+                        acc.setPhone(phone);
+                    }
+                    if (nameTag.equals("gender")) {
+                        String gender = reader.getElementText();
+                        acc.setGender(gender);
+                    }
+                    if (nameTag.equals("year")) {
+                        String year = reader.getElementText();
+                        acc.setYear(new SimpleDateFormat("yyyy").parse(year));
+                    }
+                }
+
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(DAOAccount.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (XMLStreamException ex) {
+            Logger.getLogger(DAOAccount.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return listAccounts;
+    }
+    
+    public Vector<Account> getAllAccountsByNameFromXML(){
+        Vector<Account> v = new Vector<>();
+        //
+        return v;
+    }
+    
+    public Vector<Account> loadAccountByFilter(){
+        Vector<Account> v = new Vector<>();
+        //
+        return v;
+    }
+    
+    public void updateUserInfo(Account acc){
+        
     }
 
     public Vector<Account> getAllAccountWithName() {
@@ -280,32 +370,32 @@ public class DAOAccount {
         Account a = d.login("prj321", "123");
         System.out.println(a.getName());
 //        Vector<Account> v = new DAOAccount().loadAccByFilter("uname", "a");
-                //        for (Account account : v) {
-                //            System.out.println("name===" + account.getName());
-                //            System.out.println("rolll==== " + account.getRole());
-                //        }
-                //        Account a = new Account();
-                //        a.setpName("Đinh Đức 2");
-                //        a.setAddress("Hải Phòng 2");
-                //        a.setPhone("123");
-                //        a.setGender("Male");
-                //        String dob = "2000/01/01";
-                //        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
-                //        java.util.Date parsed = null;
-                //        try {
-                //            parsed = format.parse(dob);
-                //        } catch (ParseException ex) {
-                //            Logger.getLogger(saveInfoToDB.class.getName()).log(Level.SEVERE, null, ex);
-                //        }
-                //        java.sql.Date sql = new java.sql.Date(parsed.getTime());
-                //        a.setYear(sql);
-                //        a.setActive(0);
-                //        a.setId(1);
-                //        int i = new DAOAccount().updateInfo(a);
-                //        if (i == -1) {
-                //            System.out.println("Faill!!!");
-                //        } else {
-                //            System.out.println("Successs");
+        //        for (Account account : v) {
+        //            System.out.println("name===" + account.getName());
+        //            System.out.println("rolll==== " + account.getRole());
+        //        }
+        //        Account a = new Account();
+        //        a.setpName("Đinh Đức 2");
+        //        a.setAddress("Hải Phòng 2");
+        //        a.setPhone("123");
+        //        a.setGender("Male");
+        //        String dob = "2000/01/01";
+        //        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+        //        java.util.Date parsed = null;
+        //        try {
+        //            parsed = format.parse(dob);
+        //        } catch (ParseException ex) {
+        //            Logger.getLogger(saveInfoToDB.class.getName()).log(Level.SEVERE, null, ex);
+        //        }
+        //        java.sql.Date sql = new java.sql.Date(parsed.getTime());
+        //        a.setYear(sql);
+        //        a.setActive(0);
+        //        a.setId(1);
+        //        int i = new DAOAccount().updateInfo(a);
+        //        if (i == -1) {
+        //            System.out.println("Faill!!!");
+        //        } else {
+        //            System.out.println("Successs");
     }
 //    }
 }
