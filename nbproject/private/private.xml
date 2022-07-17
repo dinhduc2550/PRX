@@ -5,19 +5,19 @@
         <group name="JavaWeb"/>
         <group name="JavaWEB">
             <file>file:/I:/PRX301/MyProject/src/java/entity/Product.java</file>
-            <file>file:/I:/PRX301/MyProject/src/java/ForNews/showInfoNews.java</file>
-            <file>file:/I:/PRX301/MyProject/src/java/servletPack/detailControl.java</file>
-            <file>file:/I:/PRX301/MyProject/src/java/PathFile.java</file>
+            <file>file:/I:/PRX301/MyProject/src/java/servletPack/addNewToDB.java</file>
+            <file>file:/I:/PRX301/MyProject/src/java/ForNews/updateNewToXML.java</file>
             <file>file:/I:/PRX301/MyProject/src/java/servletPack/loadByFilter.java</file>
             <file>file:/I:/PRX301/MyProject/web/newsManager.jsp</file>
             <file>file:/I:/PRX301/MyProject/src/java/DAO/DAONews.java</file>
-            <file>file:/I:/PRX301/MyProject/src/java/DAO/DAOProduct.java</file>
             <file>file:/I:/PRX301/MyProject/src/java/servletPack/homeControl.java</file>
+            <file>file:/I:/PRX301/MyProject/src/java/DAO/DAOProduct.java</file>
             <file>file:/I:/PRX301/MyProject/data.xml</file>
-            <file>file:/I:/PRX301/MyProject/src/java/servletPack/detailControlForProduct.java</file>
-            <file>file:/I:/PRX301/MyProject/src/java/ForNews/updateNewsToDB.java</file>
-            <file>file:/I:/PRX301/MyProject/src/java/ForNews/formUploadImage.java</file>
-            <file>file:/I:/PRX301/MyProject/src/java/forFilter/firstLoad.java</file>
+            <file>file:/I:/PRX301/MyProject/src/java/DAO/updateProductToXML.java</file>
+            <file>file:/I:/PRX301/MyProject/src/java/servletPack/addProductToXML.java</file>
+            <file>file:/I:/PRX301/MyProject/src/java/servletPack/addNew.java</file>
+            <file>file:/I:/PRX301/MyProject/src/java/servletPack/addNewToXML.java</file>
+            <file>file:/I:/PRX301/MyProject/src/java/testAlgo/test1.java</file>
         </group>
     </open-files>
 </project-private>

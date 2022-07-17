@@ -126,27 +126,15 @@
                                 <h3  class="title-3 m-b-30">Edit </h3>
                                 <h6>${success}</h6>
                                 <div id="f-2-3" class="container">
-                                    <form enctype="multipart/form-data"  name="formNews" method="post" id="formNews" action="uploadImg">
+                                    <form name="formNews" method="post" id="formNews" action="updateNewToXML?addNews=1">
                                         <label for="newID">News ID</label>
                                         <input value="" readonly type="text" id="newID" name="newID" placeholder="New id ..">
                                         <br>
-                                        <label for="pName">Product Name</label>
-                                        <input value="" type="text" id="pName" name="pName" placeholder="Product Name ..">
-                                        <br>
-                                        <label for="amount">Amount</label>  <br>
-                                        <input type="number" id="amount" name="amount" min="0">
-                                        <br>
-                                        <label for="price">Price</label>
-                                        <input onchange="returns checkInp()" type="text" id="price" name="price" >
-
                                         <label for="title">Title News</label>
                                         <input value="" type="text" id="title" name="title" placeholder="Title..">
                                         <!--<textarea name="titleA" id="titleA"></textarea>-->
-                                        <label for="img">Image</label>
-                                        <input accept="image/*" type='file' id="imgInp" />
-                                        <img id="blah" src="#" alt="your image" />
-                                        <input name="file_upload" type="file" id="file_upload" onchange="previewImg(event)">
-                                        <br>
+                                        <label for="img">Image</label><br>
+                                        <input type="text" id="urlImg" name="urlImg" placeholder="URL Image"><br>
                                         <image name="imgF" src="img\photo-icon-1.jpg" width="200" height="250" id="image-field3">
                                         <br>
                                         <label for="txtA">Content</label>
