@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<accounts>
+	<account>
+		<id>1</id>
+		<userName>t</userName>
+		<pass>s</pass>
+		<role>0</role>
+		<isActive>0</isActive>
+	</account>
+	<account>
+		<id>2</id>
+		<userName>t</userName>
+		<pass>s</pass>
+		<role>0</role>
+		<isActive>0</isActive>
+	</account>
+	<account>
+		<id>3</id>
+		<userName>sss</userName>
+		<pass>ddd</pass>
+		<role>0</role>
+		<isActive>0</isActive>
+	</account>
+	<account>
+		<id>4</id>
+		<userName>tuss</userName>
+		<pass>123</pass>
+		<role>0</role>
+		<isActive>0</isActive>
+	</account>
+	<account>
+		<id>5</id>
+		<userName>tuss2</userName>
+		<pass>123</pass>
+		<role>1</role>
+		<isActive>0</isActive>
+	</account>
+</accounts>
