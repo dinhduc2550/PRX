@@ -5,10 +5,12 @@
  */
 package servletPack;
 
-import DAO.ConnectDB;
+
+import DAO.DAOAccount;
 import entity.Account;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,13 +31,8 @@ public class signup extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    ConnectDB con;
-
-    @Override
-    public void init() throws ServletException {
-        con = new ConnectDB();
-
-    }
+   
+    
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -47,12 +44,18 @@ public class signup extends HttpServlet {
 //            String rPhone = request.getParameter("rPhone");
 //            String rGender = request.getParameter("rGender");
 //            int rYear = Integer.parseInt(request.getParameter("rYear"));
+
+            DAO.DAOAccount daoa =new DAOAccount();
+            List<Account> listaAccounts = daoa.readAllAccounts();
+            for (Account listaAccount : listaAccounts) {
+                System.out.println("accounttu2" + listaAccount);
+            }
             String rUser = request.getParameter("rUser");
             String rPass = request.getParameter("rPass");
             String rRePass = request.getParameter("rRePass");
-            con.getDataAccount();
+           
 //            int id = con.getIdAccount(rUser, rPass);
-            Account a = con.checkAccountExist(rUser);
+           
             if(rUser.equals("")||rPass.equals("")){
                  request.setAttribute("mess2", "Please fill all required field");
                  request.getRequestDispatcher("login.jsp").forward(request, response);
@@ -61,13 +64,13 @@ public class signup extends HttpServlet {
                  request.setAttribute("mess2", "Sign Up Failed! The password does not match");
                  request.getRequestDispatcher("login.jsp").forward(request, response);
             }
-            else if (a != null) {
-                    request.setAttribute("mess2", "Account is already exist");
-                    request.getRequestDispatcher("login.jsp").forward(request, response);
-            } else {
-                con.registration(rUser, rPass);
-                response.sendRedirect("home");
-            }
+             
+                int id = listaAccounts.get(listaAccounts.size()-1).getId();
+                Account acc = new Account(id + 1, rUser, rPass, "1", 0);
+                daoa.writeAccounts(acc);
+                request.setAttribute("mess2", "signup OK");
+                request.getRequestDispatcher("login.jsp").forward(request, response);
+            
             out.println("</body>");
             out.println("</html>");
         }
