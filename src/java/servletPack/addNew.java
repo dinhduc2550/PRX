@@ -37,7 +37,7 @@ public class addNew extends HttpServlet {
             String option = request.getParameter("optionB");
             System.out.println(option);
             if (option.contains("News")) {
-                out.println("<form enctype=\"multipart/form-data\" method=\"post\" id=\"formNews\" action=\"addNewToDB?type=1\">\n"
+                out.println("<form method=\"post\" id=\"formNews\" action=\"addNewToXML?type=1\">\n"
                         + "                                        "
                         + "                                        "
                         + "\n"
@@ -46,7 +46,7 @@ public class addNew extends HttpServlet {
                         + "                                        <textarea name=\"titleA\" id=\"titleA\"></textarea>\n"
                         + "                                        <label for=\"img\">Image</label>\n"
                         + "\n"
-                        + "                                        <input name=\"file_upload\" type=\"file\" id=\"file_upload\" onchange=\"previewImg(event)\">\n"
+                        + "                                         <input type=\"text\" id=\"urlImg\" name=\"urlImg\" placeholder=\"URL Image\">\n"
                         + "                                        <br>\n"
                         + "                                        <image name=\"imgF\" src=\"img\\photo-icon-1.jpg\" width=\"200\" height=\"250\" id=\"image-field\">\n"
                         + "                                        <br>\n"
@@ -54,8 +54,8 @@ public class addNew extends HttpServlet {
                         + "                                        <textarea style=\"height: 300px;\" name=\"txtA\" id=\"txtA\"></textarea>\n"
                         + "                                        <input type=\"submit\" value=\"Save\">\n"
                         + "                                    </form>");
-            }else{
-                out.println("<form enctype=\"multipart/form-data\" name=\"formNews\" method=\"post\" id=\"formNews\" action=\"addProductToDB\">\n"
+            } else {
+                out.println("<form name=\"formNews\" method=\"post\" id=\"formNews\" action=\"addProductToXML\">\n"
                         + "                                        <br>\n"
                         + "                                        <label for=\"pName\">Product Name</label>\n"
                         + "                                        <input value=\"\" type=\"text\" id=\"pName\" name=\"pName\" placeholder=\"Product Name ..\">\n"
@@ -68,8 +68,7 @@ public class addNew extends HttpServlet {
                         + "\n"
                         + "                                        "
                         + "                                        <label for=\"img\">Image</label>\n"
-                        + "\n"
-                        + "                                        <input name=\"file_upload\" type=\"file\" id=\"file_upload\" onchange=\"previewImg(event)\">\n"
+                        + "\n" + "                                 <input type=\"text\" id=\"urlImg\" name=\"urlImg\" placeholder=\"URL Image\">\n"
                         + "                                        <br>\n"
                         + "                                        <image name=\"imgF\" src=\"img\\photo-icon-1.jpg\" width=\"200\" height=\"250\" id=\"image-field\">\n"
                         + "                                        <br>\n"

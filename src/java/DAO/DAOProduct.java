@@ -140,13 +140,13 @@ public class DAOProduct {
                 writer.writeEndElement();
 
                 writer.writeStartElement("active");
-                writer.writeCharacters(1+"");
+                writer.writeCharacters(1 + "");
                 writer.writeEndElement();
 
                 writer.writeStartElement("description");
                 writer.writeCharacters(p.getDes() + "");
                 writer.writeEndElement();
-                
+
                 writer.writeStartElement("urlImg");
                 writer.writeCharacters(p.getUrlImage());
                 writer.writeEndElement();
@@ -155,7 +155,6 @@ public class DAOProduct {
                 writer.writeCharacters("1");
                 writer.writeEndElement();
 
-                
                 writer.writeStartElement("view");
                 writer.writeCharacters(p.getView() + "");
                 writer.writeEndElement();
@@ -210,20 +209,8 @@ public class DAOProduct {
     }
 
     public Vector<Product> getListProductByNameFromXML(int position, String txtSearch) {
-        //typeLoad = 0; load all -- for search filter
-        //typeLoad = 1; load next 6 product - for load more
         Vector<Product> listProduct = new DAOProduct().getListProductFromXML(-1);
         Vector<Product> listProduct2 = new Vector<>();//list product for search filter or load more
-        Vector<Product> listProduct3 = new Vector<>();
-
-//         if(typeLoad==0){
-//             for (Product p : listProduct) {
-//                 if (p.getpName().toLowerCase().contains(txtSearch.toLowerCase())) {
-//                    listProduct2.add(p);
-//                }
-//             }
-//             return listProduct2;
-//         }
         position++;
         if (position == 0) {
             for (Product p : listProduct) {
@@ -261,7 +248,20 @@ public class DAOProduct {
             }
         }
         daoProduct.writeListProductToXML(listProducts);
-        
+
+    }
+
+    public int getLastIDProductFromXML() {
+        DAOProduct daoProduct = new DAOProduct();
+        Vector<Product> listProducts = daoProduct.getListProductFromXML(-1);
+        return listProducts.get(listProducts.size() - 1).getpID();
+    }
+
+    public void addProductToXML(Product p) {
+        DAOProduct daoProduct = new DAOProduct();
+        Vector<Product> listProducts = daoProduct.getListProductFromXML(-1);
+        listProducts.add(p);
+        daoProduct.writeListProductToXML(listProducts);
     }
 
     Connection conn;

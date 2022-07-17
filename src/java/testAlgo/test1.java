@@ -31,6 +31,6 @@ public class test1 {
 ////            System.out.println(product.getpName());
 //            System.out.println("View: " + n.getView());
 //        }
-        daoNews.updateViewsOfNewsClicked(1);
+        System.out.println("id==="+dao.getLastIDProductFromXML());
     }
 }

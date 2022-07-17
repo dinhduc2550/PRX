@@ -238,7 +238,19 @@ public class DAONews {
         new DAONews().writeNewsToXML(listNews);
 
     }
+    
+    public void addNewsToXML(News n1) {
+        Vector<News> listNews = new DAONews().getListNewsFromXML(-1);
+        listNews.add(n1);
+        new DAONews().writeNewsToXML(listNews);
 
+    }
+    
+    public int getLastIDNewsFromXML(){
+        Vector<News> v = new DAONews().getListNewsFromXML(0);
+        return v.get(v.size()-1).getId();
+    }
+    
     Connection conn;
 
     private void initConnection() {
