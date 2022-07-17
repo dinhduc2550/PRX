@@ -36,38 +36,37 @@ public class showInfoProduct extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-             int id = Integer.parseInt(request.getParameter("nID2"));
-            Product n1  = new DAOProduct().getProductByProductID(id);
+            int id = Integer.parseInt(request.getParameter("nID2"));
+            Product n1 = new DAOProduct().getProductByIDFromXML(id);
             System.out.println(n1.getUrlImage());
-                System.out.println("id============================="+id);
-                out.println("<form enctype=\"multipart/form-data\" name=\"formNews\" method=\"post\" id=\"formNews\" action=\"updateProductToDB\">\n"
-                        + "                                        <label for=\"proID\">Product ID</label>\n"
-                        + "                                        <input value=\"" + n1.getpID()+ "\" readonly type=\"text\" id=\"proID\" name=\"proID\" >\n"
-                        + "                                        <br>\n"
-                        + "                                        <label for=\"pName\">Product Name</label>\n"
-                        + "                                        <input value=\"" + n1.getpName()+ "\" type=\"text\" id=\"pName\" name=\"pName\" placeholder=\"Product Name ..\">\n"
-                        + "                                        <br>\n"
-                        + "                                        <label for=\"amount\">Amount</label>  <br>\n"
-                        + "                                        <input value=\"" + n1.getAmount() + "\" type=\"number\" id=\"amount\" name=\"amount\" min=\"0\">\n"
-                        + "                                        <br>\n"
-                        + "                                        <label for=\"price\">Price</label>\n"
-                        + "                                        <input value=\"" + n1.getPrice() + "\" onchange=\"returns checkInp()\" type=\"text\" id=\"price\" name=\"price\" >\n"
-                        + "\n"
-//                        + "                                        <label for=\"title\">Title News</label>\n"
-                        + "                                        "
-//                        + "                                        <textarea name=\"titleA\" id=\"titleA\">" + n1.getDes()+ "</textarea>\n"
-                        + "                                        <label for=\"img\">Image</label>\n"
-                        + "\n"
-                        + "                                        <input name=\"file_upload\" type=\"file\" id=\"file_upload\" onchange=\"previewImg(event)\">\n"
-                        + "                                        <br>\n"
-                        + "                                        <image name=\"imgF\" src=\"" + n1.getUrlImage() + "\" width=\"200\" height=\"250\" id=\"image-field\">\n"
-                        + "                                        <br>\n"
-                        + "                                        <label for=\"txtA\">Content</label>\n"
-                        + "                                        <textarea style=\"height: 450px;\" name=\"txtA\" id=\"txtA\">" + n1.getDes()+ "</textarea>\n"
-                        + "                                        <input type=\"submit\" value=\"Save\">\n"
-                        + "                                    </form>");
-            }
-        
+            System.out.println("id=============================" + id);
+            out.println("<form name=\"formNews\" method=\"post\" id=\"formNews\" action=\"updateProductToXML\">\n"
+                    + "                                        <label for=\"proID\">Product ID</label>\n"
+                    + "                                        <input value=\"" + n1.getpID() + "\" readonly type=\"text\" id=\"proID\" name=\"proID\" >\n"
+                    + "                                        <br>\n"
+                    + "                                        <label for=\"pName\">Product Name</label>\n"
+                    + "                                        <input value=\"" + n1.getpName() + "\" type=\"text\" id=\"pName\" name=\"pName\" placeholder=\"Product Name ..\">\n"
+                    + "                                        <br>\n"
+                    + "                                        <label for=\"amount\">Amount</label>  <br>\n"
+                    + "                                        <input value=\"" + n1.getAmount() + "\" type=\"number\" id=\"amount\" name=\"amount\" min=\"0\">\n"
+                    + "                                        <br>\n"
+                    + "                                        <label for=\"price\">Price</label>\n"
+                    + "                                        <input value=\"" + n1.getPrice() + "\" onchange=\"returns checkInp()\" type=\"text\" id=\"price\" name=\"price\" >\n"
+                    + "\n"
+                    //                        + "                                        <label for=\"title\">Title News</label>\n"
+                    + "                                        "
+                    //                        + "                                        <textarea name=\"titleA\" id=\"titleA\">" + n1.getDes()+ "</textarea>\n"
+                    + "                                        <label for=\"img\">Image</label>\n"
+                    + "\n                                      <input type=\"text\" id=\"urlImg\" name=\"urlImg\" >\n"
+                    + "                                        <br>\n"
+                    + "                                        <image name=\"imgF\" src=\"" + n1.getUrlImage() + "\" width=\"200\" height=\"250\" id=\"image-field\">\n"
+                    + "                                        <br>\n"
+                    + "                                        <label for=\"txtA\">Content</label>\n"
+                    + "                                        <textarea style=\"height: 450px;\" name=\"txtA\" id=\"txtA\">" + n1.getDes() + "</textarea>\n"
+                    + "                                        <input type=\"submit\" value=\"Save\">\n"
+                    + "                                    </form>");
+        }
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

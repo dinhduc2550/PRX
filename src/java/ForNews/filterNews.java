@@ -41,12 +41,13 @@ public class filterNews extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             String option = request.getParameter("optionA");
             String txtSearch = request.getParameter("txtA");
-            
-            Vector<News> vn = new DAONews().getBySearch2(txtSearch, option);
+            System.out.println("option======" + option);
+
 //            for (News news : vn) {
 //                
 //            }
             if (option.contains("News")) {
+                Vector<News> vn = new DAONews().getNextNewsFromXML(1, -1, txtSearch);
                 for (News o : vn) {
                     out.println("<tr>\n"
                             + "                                                    <td>\n"
@@ -76,25 +77,25 @@ public class filterNews extends HttpServlet {
                             + "                                                </tr>");
                 }
             } else {
-                Vector<Product> v = new DAOProduct().getAllProduct();
+                Vector<Product> v = new DAOProduct().getListProductByNameFromXML(-1, txtSearch);
                 for (Product o : v) {
                     out.println("<tr>\n"
                             + "                                                    <td>\n"
-                            + "                                                        " + o.getpID()+ "\n"
+                            + "                                                        " + o.getpID() + "\n"
                             + "                                                    </td>\n"
                             + "                                                    <td>\n"
                             + "                                                        <div class=\"table-data__info\">\n"
-                            + "                                                            <p>" + o.getpName()+ "</p>\n"
+                            + "                                                            <p>" + o.getpName() + "</p>\n"
                             + "                                                        </div>\n"
                             + "                                                    </td>\n"
                             + "                                                    <td>\n"
                             + "                                                        <img width=\"50%\" src=\"" + o.getUrlImage() + "\">\n"
                             + "                                                    </td>\n"
-//                            + "                                                    <td>\n"
-//                            + "                                                        " + o.getView() + "\n"
-//                            + "                                                    </td>\n"
+                            //                            + "                                                    <td>\n"
+                            //                            + "                                                        " + o.getView() + "\n"
+                            //                            + "                                                    </td>\n"
                             + "                                                    <td>\n"
-                            + "                                                        <button  type=\"button\" value=\"" + o.getpID()+ "\" onclick=\"showMoreInfoProduct(this)\">\n"
+                            + "                                                        <button  type=\"button\" value=\"" + o.getpID() + "\" onclick=\"showMoreInfoProduct(this)\">\n"
                             + "                                                            <i class=\"fas fa-eye\"></i>\n"
                             + "                                                        </button>"
                             + "                                                        </button>\n"

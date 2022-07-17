@@ -12,9 +12,9 @@
 <!DOCTYPE html>
 <html>
     <jsp:include page="setUpPage2.jsp"/>
-    
+
     <body>
-        
+
         <jsp:include page="nav.jsp"/>
         <div class="main-content">
             <section class="welcome p-t-10">
@@ -47,7 +47,6 @@
                                         <select onchange="filterOption()" id="filterOption1" class="js-select2" name="property">
                                             <option selected="selected" value="News Data">News Data</option>
                                             <option value="Product Data">Product Data</option>
-                                            <option value="NOP">News of Product Data</option>
                                         </select>
                                         <div class="dropDownSelect2"></div>
                                     </div>
@@ -94,10 +93,10 @@
                                                         <button  type="button" value="${a.id}" onclick="showMore4(this)">
                                                             <i class="fas fa-eye"></i>
                                                         </button>
-                                                       <button id="b-c-1"  type="button" value="${a.id}" onclick="makeProduct(this)">
-                                                             <i class="fab fa-product-hunt"></i>
+                                                        <button id="b-c-1"  type="button" value="${a.id}" onclick="makeProduct(this)">
+                                                            <i class="fab fa-product-hunt"></i>
                                                         </button>
-                                                            
+
 
                                                     </td>
                                                 </tr>
@@ -144,7 +143,8 @@
                                         <input value="" type="text" id="title" name="title" placeholder="Title..">
                                         <!--<textarea name="titleA" id="titleA"></textarea>-->
                                         <label for="img">Image</label>
-
+                                        <input accept="image/*" type='file' id="imgInp" />
+                                        <img id="blah" src="#" alt="your image" />
                                         <input name="file_upload" type="file" id="file_upload" onchange="previewImg(event)">
                                         <br>
                                         <image name="imgF" src="img\photo-icon-1.jpg" width="200" height="250" id="image-field3">
@@ -171,6 +171,13 @@
                 }
                 reader.readAsDataURL(event.target.files[0]);
             }
+            imgInp.onchange = evt => {
+                console.log('the exists() function exists');
+                const [file] = imgInp.files
+                if (file) {
+                    blah.src = URL.createObjectURL(file)
+                }
+            }
 
 //            function previewImg1(event) {
 //                var reader = new FileReader();
@@ -183,8 +190,14 @@
 //                reader.readAsDataURL(event.target.files[0]);
 //            }
         </script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
         <script>
+             imgInp.onchange = evt => {
+                console.log('the exists() function exists');
+                const [file] = imgInp.files
+                if (file) {
+                    blah.src = URL.createObjectURL(file)
+                }
+            }
             function checkInp()
             {
                 var x = document.forms["formNews"]["price"].value;
@@ -200,7 +213,7 @@
                 var op = document.getElementById("filterOption1").value;
                 document.getElementById("titleTable").innerHTML = ' <i class="zmdi zmdi-account-calendar"></i>' + op;
             }
-            function makeNews(x){
+            function makeNews(x) {
                 var pID1 = x.value;
                 $.ajax({
                     url: "/MyProject/showFormAddNewsByProduct",
@@ -303,7 +316,7 @@
                     }
                 });
             }
-             function showMoreInfoProduct(x) {
+            function showMoreInfoProduct(x) {
                 var newID1 = x.value;
                 $.ajax({
                     url: "/MyProject/showInfoProduct",

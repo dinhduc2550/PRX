@@ -6,10 +6,12 @@
 package DAO;
 
 import connection.DBConnection;
+import entity.News;
 import entity.Product;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,8 +23,11 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
+import javax.xml.stream.XMLStreamWriter;
+import path.PathFile;
 
 /**
  *
@@ -52,7 +57,6 @@ public class DAOProduct {
                     }
                     if (nameTag.equals("product")) {
                         String id = reader.getAttributeValue("", "id");
-//                        System.out.println("id==" + id);
                         p.setpID(Integer.parseInt(id));
                     }
                     if (nameTag.equals("urlImg")) {
@@ -111,11 +115,71 @@ public class DAOProduct {
         }
     }
 
+    public void writeListProductToXML(Vector<Product> listProduct) {
+        try {
+            XMLOutputFactory outFactory = XMLOutputFactory.newFactory();
+            XMLStreamWriter writer
+                    = outFactory.createXMLStreamWriter(new FileOutputStream(PathFile.PATH_DATA_PRODUCTS));
+            writer.writeStartDocument("UTF-8", "1.0");
+            writer.writeStartElement("catalog");
+            for (Product p : listProduct) {
+
+                writer.writeStartElement("product");
+                writer.writeAttribute("id", p.getpID() + "");
+
+                writer.writeStartElement("title");
+                writer.writeCharacters(p.getpName());
+                writer.writeEndElement();
+
+                writer.writeStartElement("amount");
+                writer.writeCharacters(p.getAmount() + "");
+                writer.writeEndElement();
+
+                writer.writeStartElement("price");
+                writer.writeCharacters(p.getPrice() + "");
+                writer.writeEndElement();
+
+                writer.writeStartElement("active");
+                writer.writeCharacters(1+"");
+                writer.writeEndElement();
+
+                writer.writeStartElement("description");
+                writer.writeCharacters(p.getDes() + "");
+                writer.writeEndElement();
+                
+                writer.writeStartElement("urlImg");
+                writer.writeCharacters(p.getUrlImage());
+                writer.writeEndElement();
+
+                writer.writeStartElement("userID");
+                writer.writeCharacters("1");
+                writer.writeEndElement();
+
+                
+                writer.writeStartElement("view");
+                writer.writeCharacters(p.getView() + "");
+                writer.writeEndElement();
+
+                writer.writeEndElement();
+            }
+
+            writer.writeEndElement();
+            writer.writeEndDocument();
+
+            writer.close();
+        } catch (XMLStreamException ex) {
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(DAOProduct.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     public Product getProductByIDFromXML(int id) {
         Vector<Product> listProducts = new DAOProduct().getListProductFromXML(-1);
         for (Product p : listProducts) {
             if (p.getpID() == id) {
                 System.out.println("Foundedd==================???");
+                System.out.println("id= " + id);
+                System.out.println("name= " + p.getpName());
                 return p;
             }
         }
@@ -130,20 +194,76 @@ public class DAOProduct {
         try {
             for (int i = 0; i < 3; i++) {
                 listProduct2.add(listProduct.get(i));
-                System.out.println("url "+i+": "+listProduct.get(i).getUrlImage());
-                System.out.println("View:==="+listProduct.get(i).getView());
+                System.out.println("url " + i + ": " + listProduct.get(i).getUrlImage());
+                System.out.println("View:===" + listProduct.get(i).getView());
             }
         } catch (Exception e) {
         }
         return listProduct2;
     }
-    
+
     public int getLastIDTopProductsViewsFromXML() {
         Vector<Product> listProduct = new DAOProduct().getListProductFromXML(-1);
         listProduct.sort(Comparator.comparing(a -> a.getView()));
-        
-        return listProduct.get(listProduct.size()-1).getpID();
+
+        return listProduct.get(listProduct.size() - 1).getpID();
     }
+
+    public Vector<Product> getListProductByNameFromXML(int position, String txtSearch) {
+        //typeLoad = 0; load all -- for search filter
+        //typeLoad = 1; load next 6 product - for load more
+        Vector<Product> listProduct = new DAOProduct().getListProductFromXML(-1);
+        Vector<Product> listProduct2 = new Vector<>();//list product for search filter or load more
+        Vector<Product> listProduct3 = new Vector<>();
+
+//         if(typeLoad==0){
+//             for (Product p : listProduct) {
+//                 if (p.getpName().toLowerCase().contains(txtSearch.toLowerCase())) {
+//                    listProduct2.add(p);
+//                }
+//             }
+//             return listProduct2;
+//         }
+        position++;
+        if (position == 0) {
+            for (Product p : listProduct) {
+                if (p.getpName().toLowerCase().contains(txtSearch.toLowerCase())) {
+                    listProduct2.add(p);
+                }
+            }
+            return listProduct2;
+        }
+        for (int i = 0; i < 6; i++) {
+            try {
+                Product p = listProduct.get(i + position);
+                if (p.getpName().toLowerCase().contains(txtSearch.toLowerCase())) {
+                    listProduct2.add(p);
+                }
+            } catch (Exception e) {
+                return listProduct2;
+            }
+        }
+
+        return listProduct2;
+    }
+
+    public void updateProductToXML(Product p) {
+        DAOProduct daoProduct = new DAOProduct();
+        Vector<Product> listProducts = daoProduct.getListProductFromXML(-1);
+        for (Product p1 : listProducts) {
+            if (p1.getpID() == p.getpID()) {
+                p1.setpName(p.getpName());
+                p1.setAmount(p.getAmount());
+                p1.setPrice(p.getPrice());
+                p1.setDes(p.getDes());
+                p1.setUrlImage(p.getUrlImage());
+                break;
+            }
+        }
+        daoProduct.writeListProductToXML(listProducts);
+        
+    }
+
     Connection conn;
 
     private void initConnection() {

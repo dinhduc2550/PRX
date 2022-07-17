@@ -43,8 +43,8 @@ public class detailControlForProduct extends HttpServlet {
             DAONews n = new DAONews();
 //            Vector<News> v = n.getTop3News();
 //            Vector<News> v2 = n.getNews();
-            Vector<Product> v3 = new DAOProduct().getTop3Product();
-            int v4 = new DAOProduct().getLastIDProduct();
+            Vector<Product> v3 = new DAOProduct().getTop3ProductsViewsFromXML();
+            int v4 = new DAOProduct().getLastIDTopProductsViewsFromXML();
             request.setAttribute("productss", v3);
             request.setAttribute("lastID", v4);
             for (Product product : v3) {

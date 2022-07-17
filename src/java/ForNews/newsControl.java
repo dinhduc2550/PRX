@@ -52,7 +52,7 @@ public class newsControl extends HttpServlet {
 //                response.sendRedirect("home");
 //            ses.setMaxInactiveInterval(2 * 60 * 60);  // two hours
             request.removeAttribute("listNews");
-            Vector<News> v = d.getNext(1, 0, "",a.getId());
+            Vector<News> v = d.getNextNewsFromXML(1, 0, "");
             request.setAttribute("listNews", v);
             request.getRequestDispatcher("newsManager.jsp").forward(request, response);
         }

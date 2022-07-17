@@ -32,13 +32,14 @@ import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
+import path.PathFile;
 
 public class DAONews {
 
-    private final String PATH_DATA_NEWS = "I:\\PRX301\\MyProject\\news.xml";
+//    private final String PATH_DATA_NEWS = "I:\\PRX301\\MyProject\\news.xml";
 
     public Vector<News> getListNewsFromXML(int position) {
-        File file = new File(PATH_DATA_NEWS);
+        File file = new File(PathFile.PATH_DATA_NEWS);
         Vector<News> listNews = new Vector<>();
         try {
             XMLInputFactory factory = XMLInputFactory.newFactory();
@@ -122,12 +123,16 @@ public class DAONews {
     public Vector<News> getNextNewsFromXML(int type, int position, String txtSearch) {
         Vector<News> listNews = new DAONews().getListNewsFromXML(-1);
         Vector<News> listNews2 = new Vector<>();
+        position++;
+        if (position == 0) {
+            return listNews;
+        }
         try {
             for (int i = 0; i < 6; i++) {
                 try {
                     if (!txtSearch.isEmpty()) {
                         News n = listNews.get(i + position);
-                        if (n.getTitle().contains(txtSearch)) {
+                        if (n.getTitle().toLowerCase().contains(txtSearch.toLowerCase())) {
                             listNews2.add(listNews.get(i + position));
                         }
 
@@ -157,7 +162,7 @@ public class DAONews {
         try {
             XMLOutputFactory outFactory = XMLOutputFactory.newFactory();
             XMLStreamWriter writer
-                    = outFactory.createXMLStreamWriter(new FileOutputStream(PATH_DATA_NEWS));
+                    = outFactory.createXMLStreamWriter(new FileOutputStream(PathFile.PATH_DATA_NEWS));
             writer.writeStartDocument("UTF-8", "1.0");
             writer.writeStartElement("catalog");
             for (News n : listNews) {
@@ -205,10 +210,10 @@ public class DAONews {
     }
 
     //when user click to news, view will be increase 1 unit
-    public void updateViewsOfNewsClicked(int newsID){
+    public void updateViewsOfNewsClicked(int newsID) {
         Vector<News> listNews = new DAONews().getListNewsFromXML(-1);
         for (News n : listNews) {
-            if(n.getId()==newsID){
+            if (n.getId() == newsID) {
                 int views = n.getView();
                 n.setView(++views);
                 break;
@@ -216,7 +221,24 @@ public class DAONews {
         }
         new DAONews().writeNewsToXML(listNews);
     }
-    
+
+    public void updateNewsToXML(News n1) {
+        Vector<News> listNews = new DAONews().getListNewsFromXML(-1);
+        int newsID = n1.getId();
+        for (News n : listNews) {
+            if (n.getId() == newsID) {
+                if(!n1.getUrlImage().isEmpty())
+                n.setUrlImage(n1.getUrlImage());
+                n.setTitle(n1.getTitle());
+                n.setUrlTxt(n1.getUrlTxt());
+                n.setType(n1.getType());
+                break;
+            }
+        }
+        new DAONews().writeNewsToXML(listNews);
+
+    }
+
     Connection conn;
 
     private void initConnection() {

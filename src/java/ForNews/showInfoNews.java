@@ -36,35 +36,35 @@ public class showInfoNews extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-         request.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             int id = Integer.parseInt(request.getParameter("nID"));
             DAONews d = new DAONews();
-            News n = d.getNewByID(id);
+            News n = d.getNewsByIDFromXML(id);
 //            int type = d.getTypeByID(id);
 //            System.out.println("url111111111111====="+n.getUrlImage());
             String s = d.readUnicodeClassicForTextArea(n.getUrlTxt());
             request.setAttribute("portID", n.getId());
 //            if (type == 1) {
-                out.println("<form enctype=\"multipart/form-data\" method=\"post\" id=\"formNews\" action=\"uploadImg\">\n"
-                        + "                                        <label for=\"newID\">News ID</label>\n"
-                        + "                                        <input value=\"" + n.getId() + "\" readonly type=\"text\" id=\"newID\" name=\"newID\" placeholder=\"New id ..\">\n"
-                        + "\n"
-                        + "                                        <label for=\"title\">News Title</label>\n"
-                        + "                                        \n"
-                        + "                                        <textarea name=\"titleA\" id=\"titleA\">" + n.getTitle() + "</textarea>\n"
-                        + "                                        <label for=\"img\">Image</label>\n"
-                        + "\n"
-                        + "                                        <input name=\"file_upload\" type=\"file\" id=\"file_upload\" onchange=\"previewImg(event)\">\n"
-                        + "                                        <br>\n"
-                        + "                                        <image name=\"imgF\" src=\"" + n.getUrlImage() + "\" width=\"200\" height=\"250\" id=\"image-field\">\n"
-                        + "                                        <br>\n"
-                        + "                                        <label for=\"txtA\">Content</label>\n"
-                        + "                                        <textarea style=\"height: 450px;\" name=\"txtA\" id=\"txtA\">" + s + "</textarea>\n"
-                        + "                                        <input type=\"submit\" value=\"Save\">\n"
-                        + "                                    </form>");
-                
+            out.println("<form method=\"post\" id=\"formNews\" action=\"updateNewToXML\">\n"
+                    + "                                        <label for=\"newID\">News ID</label>\n"
+                    + "                                        <input value=\"" + n.getId() + "\" readonly type=\"text\" id=\"newID\" name=\"newID\" placeholder=\"New id ..\">\n"
+                    + "\n"
+                    + "                                        <label for=\"title\">News Title</label>\n"
+                    + "                                        \n"
+                    + "                                        <textarea name=\"titleA\" id=\"titleA\">" + n.getTitle() + "</textarea>\n"
+                    + "                                        <label for=\"img\">Image</label>\n"
+                    + "\n                                      <input type=\"text\" id=\"urlImg\" name=\"urlImg\" placeholder=\"URL Image\">\n"
+                    + "                                        "
+                    + "                                        <br>\n"
+                    + "                                        <image name=\"imgF\" src=\"" + n.getUrlImage() + "\" width=\"200\" height=\"250\" id=\"image-field\">\n"
+                    + "                                        <br>\n"
+                    + "                                        <label for=\"txtA\">Content</label>\n"
+                    + "                                        <textarea style=\"height: 450px;\" name=\"txtA\" id=\"txtA\">" + s + "</textarea>\n"
+                    + "                                        <input type=\"submit\" value=\"Save\">\n"
+                    + "                                    </form>");
+            
 
         }
     }
