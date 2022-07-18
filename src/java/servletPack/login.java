@@ -9,6 +9,7 @@ import DAO.ConnectDB;
 import DAO.DAOAccount;
 import entity.Account;
 import entity.ListAccount;
+import entity.UserInformation;
 import helper.JAXBHelper;
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -79,49 +80,51 @@ public class login extends HttpServlet {
         String name = request.getParameter("uname");
         String psw = request.getParameter("psw");
         String rm = request.getParameter("remember");
-        if(name.equals("")||psw.equals("")){
-             request.setAttribute("mess", "Please!Fill in the blanks completely");
+        if (name.equals("") || psw.equals("")) {
+            request.setAttribute("mess", "Please!Fill in the blanks completely");
             request.getRequestDispatcher("login.jsp").forward(request, response);
         }
         con.getDataAccount();
         DAOAccount d = new DAOAccount();
-        Account a1 = con.getAllAttibute(name, psw);
+        UserInformation a1 = null;
         Account a;
         try {
+            a1 = d.loadUserInformation(name);
             a = login(name, psw);
         } catch (JAXBException ex) {
             a = null;
+            a1 = null;
         }
         if (a == null) {
             request.setAttribute("mess", "Wrong username or password");
             request.getRequestDispatcher("login.jsp").forward(request, response);
         } else {
             HttpSession ses = request.getSession();
-            
+
             ses.setAttribute("acc", a);
             ses.setAttribute("acc1", a1);
             ses.setAttribute("uIDD", a.getId());
             Cookie u2 = new Cookie("userNameA1", name);
             Cookie p2 = new Cookie("passWordA1", psw);
-            if(rm!=null){
+            if (rm != null) {
                 p2.setMaxAge(60);
-            }else{
+            } else {
                 p2.setMaxAge(0);
             }
             u2.setMaxAge(60);
-            ses.setMaxInactiveInterval(60*60*24);
+            ses.setMaxInactiveInterval(60 * 60 * 24);
             response.addCookie(u2);
             response.addCookie(p2);
             response.sendRedirect("home");
-            
+
         }
     }
-    
-    public Account login(String name, String pass) throws JAXBException{
+
+    public Account login(String name, String pass) throws JAXBException {
         JAXBHelper helper = new JAXBHelper(Account.class);
-        ListAccount listAccount = (ListAccount)helper.readXml("accounts.xml");
+        ListAccount listAccount = (ListAccount) helper.readXml("accounts.xml");
         for (Account accountXml : listAccount.getAccounts()) {
-            if(accountXml.getUserName().equals(name) && accountXml.getPass().equals(pass)){
+            if (accountXml.getUserName().equals(name) && accountXml.getPass().equals(pass)) {
                 return accountXml;
             }
         }

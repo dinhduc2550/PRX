@@ -269,32 +269,5 @@ public class ConnectDB {
 //        }
     }
     
-    public UserInformation loadUserInformation (String userName) throws JAXBException{
-        JAXBHelper helperForAccount = new JAXBHelper(ListAccount.class);
-        JAXBHelper helperForProfile = new JAXBHelper(ListUserProfile.class);
-        
-        ListAccount listAccount = (ListAccount)helperForAccount.readXml("accounts.xml");
-        ListUserProfile listUserProfile = (ListUserProfile)helperForProfile.readXml("profiles.xml");
-        
-        Map<Integer, Object> profileWithId = new HashMap<>();
-        listUserProfile.getUserProfiles().forEach(profile -> {
-            profileWithId.put(profile.getId(), profile);
-        });
-        
-        UserInformation information = new UserInformation();
-        listAccount.getAccounts().forEach(account -> {
-            if(account.getUserName().equals(userName)){
-                UserProfile profile = (UserProfile)profileWithId.get(account.getId());
-                information.setpName(profile.getName());
-                information.setAddress(profile.getAddress());
-                information.setGender(profile.getGender());
-                information.setPhone(profile.getPhone());
-                information.setYear(profile.getDate());
-                information.setIsActive(account.getIsActive());
-                information.setRole(account.getRole());
-                information.setName(userName);
-            }
-        });
-        return information;
-    }
+
 }

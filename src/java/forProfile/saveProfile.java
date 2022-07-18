@@ -8,6 +8,7 @@ package forProfile;
 import DAO.ConnectDB;
 import DAO.DAOAccount;
 import entity.Account;
+import entity.UserInformation;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
@@ -74,13 +75,13 @@ public class saveProfile extends HttpServlet {
                 Logger.getLogger(saveInfoToDB.class.getName()).log(Level.SEVERE, null, ex);
             }
             java.sql.Date sql = new java.sql.Date(parsed.getTime());
-            Account a1 = new Account();
+            UserInformation a1 = new UserInformation();
             a1.setpName(fname);
             a1.setAddress(address);
             a1.setPhone(phone);
             a1.setGender(gender);
-            a1.setActive(1);
-            a1.setYear(sql);
+            a1.setIsActive(1);
+            a1.setYear(sql.toString());
             int uID = Integer.parseInt(ses.getAttribute("uIDD") + "");
 //            System.out.println("Uiddddddddddddđ" + uID);
             a1.setId(uID);
