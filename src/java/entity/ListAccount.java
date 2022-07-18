@@ -3,8 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package entity.xml;
 
+import entity.Account;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -18,16 +18,16 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name = "accounts")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ListAccountXml {
-    private List<AccountXml> account = null; 
+public class ListAccount {
+    private List<Account> account = null; 
    
-    public List<AccountXml> getAccounts() {
+    public List<Account> getAccounts() {
         return account;
     }
     
     @XmlElement
-    public void setAccounts(AccountXml a) {
-        List<AccountXml> list = new ArrayList<>();
+    public void setAccounts(Account a) {
+        List<Account> list = new ArrayList<>();
         list.add(a);
         this.account = list;
     }
