@@ -8,10 +8,9 @@ package servletPack;
 import DAO.ConnectDB;
 import DAO.DAOAccount;
 import entity.Account;
-import entity.xml.ListAccountXml;
+import entity.ListAccount;
 import helper.JAXBHelper;
 import java.io.IOException;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -120,7 +119,7 @@ public class login extends HttpServlet {
     
     public Account login(String name, String pass) throws JAXBException{
         JAXBHelper helper = new JAXBHelper(Account.class);
-        ListAccountXml listAccount = (ListAccountXml)helper.readXml("account.xml");
+        ListAccount listAccount = (ListAccount)helper.readXml("accounts.xml");
         for (Account accountXml : listAccount.getAccounts()) {
             if(accountXml.getUserName().equals(name) && accountXml.getPass().equals(pass)){
                 return accountXml;

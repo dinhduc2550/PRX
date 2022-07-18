@@ -10,11 +10,48 @@ package entity;
  * @author Administrator
  */
 public class UserInformation {
-    private String pName; 
+
+    private int id;
+    private String pName;
     private String phone;
     private String address;
     private String gender;
     private String year;
+    private String role;
+    private int isActive;
+    private String name;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public int getIsActive() {
+        return isActive;
+    }
+
+    public void setIsActive(int isActive) {
+        this.isActive = isActive;
+    }
 
     public UserInformation() {
     }
@@ -58,6 +95,5 @@ public class UserInformation {
     public void setYear(String year) {
         this.year = year;
     }
-    
-    
+
 }

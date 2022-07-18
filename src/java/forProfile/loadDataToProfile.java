@@ -7,7 +7,7 @@ package forProfile;
 
 import DAO.ConnectDB;
 import DAO.DAOAccount;
-import entity.Account;
+import entity.*;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -46,9 +46,9 @@ public class loadDataToProfile extends HttpServlet {
             }
 //            int aID = a.getId();
              ConnectDB da = new ConnectDB();
-              Account b =null;
+              UserInformation b = null;
             try {
-                 b = da.getAllAttibute(a.getName());
+                 b = da.loadUserInformation(a.getUserName());
             } catch (Exception e) {
                 e.printStackTrace();
             }
