@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<profiles>
+    <profile>
+        <id>1</id>
+        <name>Thanh Dang</name>
+        <phone>0944808998</phone>
+        <gender>Male</gender>
+        <address>Quang Ninh</address>
+        <date>2000/14/10</date>
+    </profile>
+</profiles>
