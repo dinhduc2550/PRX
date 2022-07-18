@@ -8,10 +8,9 @@ package servletPack;
 import DAO.ConnectDB;
 import DAO.DAOAccount;
 import entity.Account;
-import entity.xml.AccountXml;
-import helper.JAXBHelper;
 import java.io.IOException;
-import java.util.List;
+import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -19,7 +18,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.xml.bind.JAXBException;
 
 @WebServlet(name = "login", urlPatterns = {"/login"})
 public class login extends HttpServlet {
@@ -87,12 +85,7 @@ public class login extends HttpServlet {
         con.getDataAccount();
         DAOAccount d = new DAOAccount();
         Account a1 = con.getAllAttibute(name, psw);
-        AccountXml a;
-        try {
-            a = login(name, psw);
-        } catch (JAXBException ex) {
-            a = null;
-        }
+        Account a = d.login(name, psw);
         if (a == null) {
             request.setAttribute("mess", "Wrong username or password");
             request.getRequestDispatcher("login.jsp").forward(request, response);
@@ -116,17 +109,6 @@ public class login extends HttpServlet {
             response.sendRedirect("home");
             
         }
-    }
-    
-    public AccountXml login(String name, String pass) throws JAXBException{
-        JAXBHelper helper = new JAXBHelper(AccountXml.class);
-        List<AccountXml> listAccount = helper.readXml("account.xml");
-        for (AccountXml accountXml : listAccount) {
-            if(accountXml.getUserName().equals(name) && accountXml.getPass().equals(pass)){
-                return accountXml;
-            }
-        }
-        return null;
     }
 
     /**
