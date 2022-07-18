@@ -1,5 +1,6 @@
-package DAO;
+package ForNews;
 
+import DAO.DAOProduct;
 import entity.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
