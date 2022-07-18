@@ -6,18 +6,12 @@ package DAO;
 import connection.DBConnection;
 
 import entity.*;
-import helper.JAXBHelper;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.xml.bind.JAXBException;
 
 public class ConnectDB {
 

@@ -121,7 +121,7 @@ public class login extends HttpServlet {
     }
 
     public Account login(String name, String pass) throws JAXBException {
-        JAXBHelper helper = new JAXBHelper(Account.class);
+        JAXBHelper helper = new JAXBHelper(ListAccount.class);
         ListAccount listAccount = (ListAccount) helper.readXml("accounts.xml");
         for (Account accountXml : listAccount.getAccounts()) {
             if (accountXml.getUserName().equals(name) && accountXml.getPass().equals(pass)) {

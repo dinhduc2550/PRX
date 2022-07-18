@@ -20,6 +20,20 @@ public class UserInformation {
     private int isActive;
     private String name;
 
+    public UserInformation(String pName, int id, String phone, String address, String gender, String year, String role, int isActive, String name) {
+        this.pName = pName;
+        this.id = id;
+        this.phone = phone;
+        this.address = address;
+        this.gender = gender;
+        this.year = year;
+        this.role = role;
+        this.isActive = isActive;
+        this.name = name;
+    }
+    
+    
+
     public String getName() {
         return name;
     }

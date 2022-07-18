@@ -5,7 +5,6 @@
  */
 package forProfile;
 
-import DAO.ConnectDB;
 import DAO.DAOAccount;
 import entity.Account;
 import entity.UserInformation;
@@ -22,6 +21,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.bind.JAXBException;
 import servletPack.saveInfoToDB;
 
 /**
@@ -41,7 +41,7 @@ public class saveProfile extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, JAXBException {
         response.setContentType("text/html;charset=UTF-8");
         request.setCharacterEncoding("utf-8");
         try (PrintWriter out = response.getWriter()) {
@@ -86,11 +86,10 @@ public class saveProfile extends HttpServlet {
 //            System.out.println("Uiddddddddddddđ" + uID);
             a1.setId(uID);
             DAOAccount d = new DAOAccount();
-            Account b = new ConnectDB().getAllAttibute(fname);
+            UserInformation b = d.loadUserInformation(a.getUserName());
             int i = -1;
             if (b == null) {
                 System.out.println("b isssssssssssssssssssssss nullllllllllllllll");
-                new ConnectDB().inputInfo(a);
                 request.setAttribute("success", "<div class=\"alert alert-success alert-dismissible\">\n"
                         + "    <a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\">&times;</a>\n"
                         + "    <strong>Add Success!</strong>\n"
@@ -126,7 +125,11 @@ public class saveProfile extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (JAXBException ex) {
+            Logger.getLogger(saveProfile.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -140,7 +143,11 @@ public class saveProfile extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (JAXBException ex) {
+            Logger.getLogger(saveProfile.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

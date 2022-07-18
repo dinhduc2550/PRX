@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.bind.JAXBException;
@@ -28,15 +29,13 @@ import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
+import path.PathFile;
 
 /**
  *
  * @author Tund
  */
 public class DAOAccount {
-
-    public static final String ACCOUNT_XML_FILE_PATH = "accounts.xml";
-    public static final String PROFILE_XML_FILE_PATH = "profiles.xml";
 
     public static void main(String[] args) {
         List<Account> accounts = readAllAccounts();
@@ -52,7 +51,7 @@ public class DAOAccount {
         XMLInputFactory factory = XMLInputFactory.newInstance();
         FileReader fileReader;
         try {
-            fileReader = new FileReader(ACCOUNT_XML_FILE_PATH);
+            fileReader = new FileReader(PathFile.ACCOUNT_XML_FILE_PATH);
             XMLStreamReader streamReader = factory.createXMLStreamReader(fileReader);
             while (streamReader.hasNext()) {
                 int category = streamReader.next();
@@ -126,7 +125,7 @@ public class DAOAccount {
         try {
             XMLOutputFactory factory = XMLOutputFactory.newInstance();
             XMLStreamWriter streamWriter = factory.createXMLStreamWriter(
-                    new FileOutputStream(ACCOUNT_XML_FILE_PATH));
+                    new FileOutputStream(PathFile.ACCOUNT_XML_FILE_PATH));
             streamWriter.writeStartDocument("UTF-8", "1.0");
             streamWriter.writeCharacters("\n");
             streamWriter.writeStartElement("accounts");
@@ -171,15 +170,15 @@ public class DAOAccount {
 
     public int changePass(String oldPass, String newPass, int id) throws JAXBException {
         JAXBHelper helperAccount = new JAXBHelper(ListAccount.class);
-        ListAccount listAccount = helperAccount.readXml(ACCOUNT_XML_FILE_PATH);
+        ListAccount listAccount = helperAccount.readXml(PathFile.ACCOUNT_XML_FILE_PATH);
 
         for (Account account : listAccount.getAccounts()) {
-            if (!account.getPass().equals(oldPass)){
+            if (!account.getPass().equals(oldPass)) {
                 return -1;
             }
             account.setPass(newPass);
         }
-        helperAccount.writeXml(ACCOUNT_XML_FILE_PATH, listAccount);
+        helperAccount.writeXml(PathFile.ACCOUNT_XML_FILE_PATH, listAccount);
         return 1;
     }
 
@@ -187,8 +186,8 @@ public class DAOAccount {
         JAXBHelper helperForAccount = new JAXBHelper(ListAccount.class);
         JAXBHelper helperForProfile = new JAXBHelper(ListUserProfile.class);
 
-        ListAccount listAccount = (ListAccount) helperForAccount.readXml(ACCOUNT_XML_FILE_PATH);
-        ListUserProfile listUserProfile = (ListUserProfile) helperForProfile.readXml(PROFILE_XML_FILE_PATH);
+        ListAccount listAccount = (ListAccount) helperForAccount.readXml(PathFile.ACCOUNT_XML_FILE_PATH);
+        ListUserProfile listUserProfile = (ListUserProfile) helperForProfile.readXml(PathFile.PROFILE_XML_FILE_PATH);
 
         Map<Integer, Object> profileWithId = new HashMap<>();
         listUserProfile.getUserProfiles().forEach(profile -> {
@@ -211,6 +210,42 @@ public class DAOAccount {
         });
         return information;
     }
-    
-    public 
+
+    public int updateInfo(UserInformation newInfor) throws JAXBException {
+        int id = newInfor.getId();
+        String fullName = newInfor.getpName();
+        String address = newInfor.getAddress();
+        String phone = newInfor.getPhone();
+        String gender = newInfor.getGender();
+        int isActive = newInfor.getIsActive();
+        String year = newInfor.getYear();
+
+        JAXBHelper helperForAccount = new JAXBHelper(ListAccount.class);
+        JAXBHelper helperForProfile = new JAXBHelper(ListUserProfile.class);
+
+        ListAccount listAccount = (ListAccount) helperForAccount.readXml(PathFile.ACCOUNT_XML_FILE_PATH);
+        ListUserProfile listUserProfile = (ListUserProfile) helperForProfile.readXml(PathFile.PROFILE_XML_FILE_PATH);
+        AtomicInteger atomicInt = new AtomicInteger(-1);
+        listAccount.getAccounts().forEach(
+                account -> {
+                    if (account.getId() == id) {
+                        account.setIsActive(isActive);
+                    }
+                });
+
+        listUserProfile.getUserProfiles().forEach(
+                profile -> {
+                    if (profile.getId() == id) {
+                        profile.setAddress(address);
+                        profile.setDate(year);
+                        profile.setGender(gender);
+                        profile.setName(fullName);
+                        profile.setPhone(phone);
+
+                        atomicInt.set(1);
+                    }
+                });
+        return atomicInt.get();
+    }
+
 }
