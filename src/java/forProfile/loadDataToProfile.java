@@ -40,15 +40,15 @@ public class loadDataToProfile extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             HttpSession ses = request.getSession();
             Account a = (Account) ses.getAttribute("acc");
-             if (a == null || ses.getAttribute("acc") == null) {
+            if (a == null || ses.getAttribute("acc") == null) {
                 response.sendRedirect("login");
                 return;
             }
 //            int aID = a.getId();
-             ConnectDB da = new ConnectDB();
-              UserInformation b = null;
+            DAOAccount da = new DAOAccount();
+            UserInformation b = null;
             try {
-                 b = da.loadUserInformation(a.getUserName());
+                b = da.loadUserInformation(a.getUserName());
             } catch (Exception e) {
                 e.printStackTrace();
             }
