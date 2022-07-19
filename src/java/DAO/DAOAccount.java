@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -246,6 +247,132 @@ public class DAOAccount {
                     }
                 });
         return atomicInt.get();
+    }
+
+    public Vector<UserInformation> getAllAccountWithName() throws JAXBException {
+        JAXBHelper helperForAccount = new JAXBHelper(ListAccount.class);
+        JAXBHelper helperForProfile = new JAXBHelper(ListUserProfile.class);
+
+        ListAccount listAccount = (ListAccount) helperForAccount.readXml(PathFile.ACCOUNT_XML_FILE_PATH);
+        ListUserProfile listUserProfile = (ListUserProfile) helperForProfile.readXml(PathFile.PROFILE_XML_FILE_PATH);
+
+        Map<Integer, Object> profileWithId = new HashMap<>();
+        listUserProfile.getUserProfiles().forEach(profile -> {
+            profileWithId.put(profile.getId(), profile);
+        });
+
+        UserInformation information = new UserInformation();
+        Vector<UserInformation> getInformations = new Vector<>();
+        listAccount.getAccounts().forEach(account -> {
+            UserProfile profile = (UserProfile) profileWithId.get(account.getId());
+            information.setpName(profile.getName());
+            information.setAddress(profile.getAddress());
+            information.setGender(profile.getGender());
+            information.setPhone(profile.getPhone());
+            information.setYear(profile.getDate());
+            information.setIsActive(account.getIsActive());
+            information.setRole(account.getRole());
+            information.setName(account.getUserName());
+            getInformations.add(information);
+        });
+        return getInformations;
+    }
+
+    public Vector<UserInformation> loadAccByFilter(String option, String txt) throws JAXBException {
+        JAXBHelper helperForAccount = new JAXBHelper(ListAccount.class);
+        JAXBHelper helperForProfile = new JAXBHelper(ListUserProfile.class);
+
+        ListAccount listAccount = (ListAccount) helperForAccount.readXml(PathFile.ACCOUNT_XML_FILE_PATH);
+        ListUserProfile listUserProfile = (ListUserProfile) helperForProfile.readXml(PathFile.PROFILE_XML_FILE_PATH);
+
+        Map<Integer, Object> profileWithId = new HashMap<>();
+        listUserProfile.getUserProfiles().forEach(profile -> {
+            profileWithId.put(profile.getId(), profile);
+        });
+        UserInformation information = new UserInformation();
+        Vector<UserInformation> getInformations = new Vector<>();
+        switch (option) {
+            case "none":
+                listAccount.getAccounts().forEach(account -> {
+                    UserProfile profile = (UserProfile) profileWithId.get(account.getId());
+                    information.setpName(profile.getName());
+                    information.setAddress(profile.getAddress());
+                    information.setGender(profile.getGender());
+                    information.setPhone(profile.getPhone());
+                    information.setYear(profile.getDate());
+                    information.setIsActive(account.getIsActive());
+                    information.setRole(account.getRole());
+                    information.setName(account.getUserName());
+                    getInformations.add(information);
+                });
+                return getInformations;
+            case "id":
+                listAccount.getAccounts().forEach(account -> {
+                    if (String.valueOf(account.getId()).contains(txt)) {
+                        UserProfile profile = (UserProfile) profileWithId.get(account.getId());
+                        information.setpName(profile.getName());
+                        information.setAddress(profile.getAddress());
+                        information.setGender(profile.getGender());
+                        information.setPhone(profile.getPhone());
+                        information.setYear(profile.getDate());
+                        information.setIsActive(account.getIsActive());
+                        information.setRole(account.getRole());
+                        information.setName(account.getUserName());
+                        getInformations.add(information);
+                    }
+                });
+                return getInformations;
+            case "uname":
+                listAccount.getAccounts().forEach(account -> {
+                    if (account.getUserName().contains(txt)) {
+                        UserProfile profile = (UserProfile) profileWithId.get(account.getId());
+                        information.setpName(profile.getName());
+                        information.setAddress(profile.getAddress());
+                        information.setGender(profile.getGender());
+                        information.setPhone(profile.getPhone());
+                        information.setYear(profile.getDate());
+                        information.setIsActive(account.getIsActive());
+                        information.setRole(account.getRole());
+                        information.setName(account.getUserName());
+                        getInformations.add(information);
+                    }
+                });
+                return getInformations;
+            case "role":
+                listAccount.getAccounts().forEach(account -> {
+                    if (account.getRole().contains(txt)) {
+                        UserProfile profile = (UserProfile) profileWithId.get(account.getId());
+                        information.setpName(profile.getName());
+                        information.setAddress(profile.getAddress());
+                        information.setGender(profile.getGender());
+                        information.setPhone(profile.getPhone());
+                        information.setYear(profile.getDate());
+                        information.setIsActive(account.getIsActive());
+                        information.setRole(account.getRole());
+                        information.setName(account.getUserName());
+                        getInformations.add(information);
+                    }
+                });
+                return getInformations;
+            case "fname":
+                listAccount.getAccounts().forEach(account -> {
+
+                    UserProfile profile = (UserProfile) profileWithId.get(account.getId());
+                    if (profile.getName().contains(txt)) {
+                        information.setpName(profile.getName());
+                        information.setAddress(profile.getAddress());
+                        information.setGender(profile.getGender());
+                        information.setPhone(profile.getPhone());
+                        information.setYear(profile.getDate());
+                        information.setIsActive(account.getIsActive());
+                        information.setRole(account.getRole());
+                        information.setName(account.getUserName());
+                        getInformations.add(information);
+                    }
+                });
+                return getInformations;
+        }
+        return null;
     }
 
 }

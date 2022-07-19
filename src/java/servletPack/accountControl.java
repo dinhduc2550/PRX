@@ -7,15 +7,19 @@ package servletPack;
 
 import DAO.DAOAccount;
 import entity.Account;
+import entity.UserInformation;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.bind.JAXBException;
 
 /**
  *
@@ -46,13 +50,15 @@ public class accountControl extends HttpServlet {
                 return;
             }
             DAOAccount d = new DAOAccount();
-            Vector<Account> v = d.getAllAccountWithName();
+            Vector<UserInformation> v = d.getAllAccountWithName();
             request.setAttribute("listAcc", v);
             
 //            HttpSession ses = request.getSession();
 //            Account a = (Account) ses.getAttribute("acc");
             
             request.getRequestDispatcher("accManager.jsp").forward(request, response);
+        } catch (JAXBException ex) {
+            Logger.getLogger(accountControl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

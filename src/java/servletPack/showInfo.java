@@ -6,15 +6,20 @@
 package servletPack;
 
 import DAO.ConnectDB;
+import DAO.DAOAccount;
 import entity.Account;
+import entity.UserInformation;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.bind.JAXBException;
 
 /**
  *
@@ -40,8 +45,8 @@ public class showInfo extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
             String uname = request.getParameter("userName");
             System.out.println("uname=========="+uname);
-            ConnectDB da = new ConnectDB();
-            Account acc = da.getAllAttibute(uname);
+            DAOAccount da = new DAOAccount();
+            UserInformation acc = da.loadUserInformation(uname);
 //            Account a;
 //            a = da.getAllAttibute("dinhduc2550");
 //            System.out.println("name=====" + a.getName());
@@ -52,7 +57,7 @@ public class showInfo extends HttpServlet {
                     + "                                                </tr>\n"
                     + "                                                <tr>\n"
                     + "                                                    <td>Name</td>\n"
-                    + "                                                    <td class=\"text-right\">" + acc.getName() + "</td>\n"
+                    + "                                                    <td class=\"text-right\">" + acc.getpName()+ "</td>\n"
                     + "                                                </tr>\n"
                     + "                                                <tr>\n"
                     + "                                                    <td>Address</td>\n"
@@ -71,6 +76,8 @@ public class showInfo extends HttpServlet {
                     + "                                                    <td class=\"text-right\">" + acc.getYear() + "</td>\n"
                     + "                                                </tr>");
 
+        } catch (JAXBException ex) {
+            Logger.getLogger(showInfo.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

@@ -84,7 +84,6 @@ public class login extends HttpServlet {
             request.setAttribute("mess", "Please!Fill in the blanks completely");
             request.getRequestDispatcher("login.jsp").forward(request, response);
         }
-        con.getDataAccount();
         DAOAccount d = new DAOAccount();
         UserInformation a1 = null;
         Account a;
