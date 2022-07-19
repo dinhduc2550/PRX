@@ -6,15 +6,20 @@
 package servletPack;
 
 import DAO.ConnectDB;
+import DAO.DAOAccount;
 import entity.Account;
+import entity.UserInformation;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.bind.JAXBException;
 
 /**
  *
@@ -35,43 +40,45 @@ public class showInfoToAccountControl extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-         request.setCharacterEncoding("UTF-8");
+        request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             String uname = request.getParameter("userName");
-            ConnectDB da = new ConnectDB();
-            Account acc = da.getAllAttibute(uname);
+            DAOAccount da = new DAOAccount();
+            UserInformation acc = da.loadUserInformation(uname);
             String gender = acc.getGender();
             String s;
-            System.out.println("statussssssssssssssssssss: ==========="+acc.getActive());
-            System.out.println("statussssssssssssssssssss: ==========="+gender);
-            out.println("<label for=\"fname\">Account ID</label>\n" +
-"                                        <input value=\""+acc.getId()+"\" readonly type=\"text\" id=\"aid\" name=\"idF\" placeholder=\"\">\n" +
-"\n" +                                  "<label for=\"uname\">Username</label>\n" +
-"                                        <input readonly value=\""+acc.getName()+"\" type=\"text\" id=\"unameF\" name=\"unameF\" placeholder=\"Your username..\">"+
-"                                        <label for=\"pname\">Full Name</label>\n" +
-"                                        <input value=\""+acc.getpName()+"\" type=\"text\" id=\"lname\" name=\"fNameF\" placeholder=\"Your full name..\">\n" +
-"\n" +                                  "<label for=\"address\">Address</label>\n" +
-"                                        <input value=\""+acc.getAddress()+"\" type=\"text\" id=\"lname\" name=\"addressF\" placeholder=\"Your address..\">"+
-"                                        <label for=\"phone\">Phone number</label>\n" +
-"                                        <input value=\""+acc.getPhone()+"\"  type=\"text\" id=\"lname\" name=\"phoneF\" placeholder=\"Your phone number name..\">\n" +
-"\n" +
-"                                        <label for=\"gender\">Gender</label>\n" +
-"                                        <select id=\"gender\" name=\"gender\">\n" +
-"                                            <option "+(gender.equalsIgnoreCase("male")?"selected=\"selected\"":"")+" value=\"Male\">Male</option>\n" +
-"                                            <option "+(gender.equalsIgnoreCase("female")?"selected=\"selected\"":"")+" value=\"Female\">Female</option>\n" +
-"                                            <option "+(gender.equalsIgnoreCase("none")?"selected=\"selected\"":"")+" value=\"None\">None</option>\n" +
-"                                        </select>\n" +
-"\n" +                                  " <label for=\"Status\">Status</label>"
-        + "                              <select id=\"status\" name=\"status\">\n" +
-"                                            <option "+((acc.getActive()==1)?"selected=\"selected\"":"")+" class=\"text-success\" value=\"Active\">Active</option>\n" +
-"                                            <option "+((acc.getActive()==0)?"selected=\"selected\"":"")+" class=\"text-danger\" value=\"Ban\">Ban</option>\n" +
-"                                        </select>"+
-"                                        <label for=\"DoB\">Date of Birth</label>\n" +
-"                                        <br>\n" +
-"                                        <input value="+acc.getYear()+" type=\"date\" name=\"dob\" id=\"\">\n" +
-"                                        <input  type=\"submit\" value=\"Save\">");
-            
+            System.out.println("statussssssssssssssssssss: ===========" + acc.getIsActive());
+            System.out.println("statussssssssssssssssssss: ===========" + gender);
+            out.println("<label for=\"fname\">Account ID</label>\n"
+                    + "                                        <input value=\"" + acc.getId() + "\" readonly type=\"text\" id=\"aid\" name=\"idF\" placeholder=\"\">\n"
+                    + "\n" + "<label for=\"uname\">Username</label>\n"
+                    + "                                        <input readonly value=\"" + acc.getName() + "\" type=\"text\" id=\"unameF\" name=\"unameF\" placeholder=\"Your username..\">"
+                    + "                                        <label for=\"pname\">Full Name</label>\n"
+                    + "                                        <input value=\"" + acc.getpName() + "\" type=\"text\" id=\"lname\" name=\"fNameF\" placeholder=\"Your full name..\">\n"
+                    + "\n" + "<label for=\"address\">Address</label>\n"
+                    + "                                        <input value=\"" + acc.getAddress() + "\" type=\"text\" id=\"lname\" name=\"addressF\" placeholder=\"Your address..\">"
+                    + "                                        <label for=\"phone\">Phone number</label>\n"
+                    + "                                        <input value=\"" + acc.getPhone() + "\"  type=\"text\" id=\"lname\" name=\"phoneF\" placeholder=\"Your phone number name..\">\n"
+                    + "\n"
+                    + "                                        <label for=\"gender\">Gender</label>\n"
+                    + "                                        <select id=\"gender\" name=\"gender\">\n"
+                    + "                                            <option " + (gender.equalsIgnoreCase("male") ? "selected=\"selected\"" : "") + " value=\"Male\">Male</option>\n"
+                    + "                                            <option " + (gender.equalsIgnoreCase("female") ? "selected=\"selected\"" : "") + " value=\"Female\">Female</option>\n"
+                    + "                                            <option " + (gender.equalsIgnoreCase("none") ? "selected=\"selected\"" : "") + " value=\"None\">None</option>\n"
+                    + "                                        </select>\n"
+                    + "\n" + " <label for=\"Status\">Status</label>"
+                    + "                              <select id=\"status\" name=\"status\">\n"
+                    + "                                            <option " + ((acc.getIsActive() == 1) ? "selected=\"selected\"" : "") + " class=\"text-success\" value=\"Active\">Active</option>\n"
+                    + "                                            <option " + ((acc.getIsActive() == 0) ? "selected=\"selected\"" : "") + " class=\"text-danger\" value=\"Ban\">Ban</option>\n"
+                    + "                                        </select>"
+                    + "                                        <label for=\"DoB\">Date of Birth</label>\n"
+                    + "                                        <br>\n"
+                    + "                                        <input value=" + acc.getYear() + " type=\"date\" name=\"dob\" id=\"\">\n"
+                    + "                                        <input  type=\"submit\" value=\"Save\">");
+
+        } catch (JAXBException ex) {
+            Logger.getLogger(showInfoToAccountControl.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

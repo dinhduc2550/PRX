@@ -7,6 +7,7 @@ package servletPack;
 
 import DAO.DAOAccount;
 import entity.Account;
+import entity.UserInformation;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
@@ -75,16 +76,19 @@ public class saveInfoToDB extends HttpServlet {
             } else {
                 active = 1;
             }
-            Account a = new Account();
+            UserInformation a = new UserInformation();
             a.setpName(fname);
             a.setAddress(address);
             a.setPhone(phone);
             a.setGender(gender);
-            a.setActive(active);
-            a.setYear(sql);
+            a.setYear(sql.toString());
             a.setId(id);
             DAOAccount d = new DAOAccount();
-            int i = d.updateInfo(a);
+            int i = 0;
+            try {
+                i = d.updateInfo(a);
+            } catch (Exception e) {
+            }
             if (i != -1) {
                 request.setAttribute("success", "<div class=\"alert alert-success alert-dismissible\">\n"
                         + "    <a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\">&times;</a>\n"

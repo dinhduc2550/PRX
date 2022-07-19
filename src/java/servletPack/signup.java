@@ -5,7 +5,6 @@
  */
 package servletPack;
 
-
 import DAO.DAOAccount;
 import entity.Account;
 import java.io.IOException;
@@ -31,9 +30,6 @@ public class signup extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-   
-    
-
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -45,7 +41,7 @@ public class signup extends HttpServlet {
 //            String rGender = request.getParameter("rGender");
 //            int rYear = Integer.parseInt(request.getParameter("rYear"));
 
-            DAO.DAOAccount daoa =new DAOAccount();
+            DAO.DAOAccount daoa = new DAOAccount();
             List<Account> listaAccounts = daoa.readAllAccounts();
             for (Account listaAccount : listaAccounts) {
                 System.out.println("accounttu2" + listaAccount);
@@ -53,24 +49,23 @@ public class signup extends HttpServlet {
             String rUser = request.getParameter("rUser");
             String rPass = request.getParameter("rPass");
             String rRePass = request.getParameter("rRePass");
-           
+
 //            int id = con.getIdAccount(rUser, rPass);
-           
-            if(rUser.equals("")||rPass.equals("")){
-                 request.setAttribute("mess2", "Please fill all required field");
-                 request.getRequestDispatcher("login.jsp").forward(request, response);
+            if (rUser.equals("") || rPass.equals("")) {
+                request.setAttribute("mess2", "Please fill all required field");
+                request.getRequestDispatcher("login.jsp").forward(request, response);
             }
             if (!rPass.equals(rRePass)) {
-                 request.setAttribute("mess2", "Sign Up Failed! The password does not match");
-                 request.getRequestDispatcher("login.jsp").forward(request, response);
-            }
-             
-                int id = listaAccounts.get(listaAccounts.size()-1).getId();
-                Account acc = new Account(id + 1, rUser, rPass, "1", 0);
-                daoa.writeAccounts(acc);
-                request.setAttribute("mess2", "signup OK");
+                request.setAttribute("mess2", "Sign Up Failed! The password does not match");
                 request.getRequestDispatcher("login.jsp").forward(request, response);
-            
+            }
+
+            int id = listaAccounts.get(listaAccounts.size() - 1).getId();
+            Account acc = new Account(id + 1, rUser, rPass, "1", 0);
+            daoa.writeAccounts(acc);
+            request.setAttribute("mess2", "signup OK");
+            request.getRequestDispatcher("login.jsp").forward(request, response);
+
             out.println("</body>");
             out.println("</html>");
         }

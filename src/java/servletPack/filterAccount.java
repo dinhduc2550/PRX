@@ -7,14 +7,18 @@ package servletPack;
 
 import DAO.DAOAccount;
 import entity.Account;
+import entity.UserInformation;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.bind.JAXBException;
 
 /**
  *
@@ -43,8 +47,8 @@ public class filterAccount extends HttpServlet {
             System.out.println("option============="+option);
             DAOAccount d = new DAOAccount();
             String s = "",s2="";
-            Vector<Account> v = d.loadAccByFilter(option, txt);
-            for (Account o : v) {
+            Vector<UserInformation> v = d.loadAccByFilter(option, txt);
+            for (UserInformation o : v) {
                 if (o.getRole().equalsIgnoreCase("admin")) {
                     s = " <span class=\"role admin\">Admin</span>";
                 }else if(o.getRole().equalsIgnoreCase("cus")){
@@ -52,7 +56,7 @@ public class filterAccount extends HttpServlet {
                 }else if(o.getRole().equalsIgnoreCase("sale")){
                     s = "<span class=\"role member\">Saler</span>";
                 }
-                if(o.getActive()==1){
+                if(o.getIsActive()==1){
                     s2="<p class=\"text-success\">Activated</p>\n";
                 }else{
                     s2 ="<p class=\"text-danger\">Banned</p>";
@@ -86,6 +90,8 @@ public class filterAccount extends HttpServlet {
                         + "                                                    </td>\n"
                         + "                                                </tr>");
             }
+        } catch (JAXBException ex) {
+            Logger.getLogger(filterAccount.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

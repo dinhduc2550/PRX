@@ -119,7 +119,7 @@ public class showCart1 extends HttpServlet {
                 Account a = (Account) ses.getAttribute("acc");
                 int aid = a.getId();
                 ConnectDB da = new ConnectDB();
-                Account acc = da.getAllAttibute(a.getName());
+                Account acc = da.getAllAttibute(a.getUserName());
 //            System.out.println("99999999999999999999999999999");
                 request.setAttribute("list", v);
                 ses.setAttribute("listPay", v);
