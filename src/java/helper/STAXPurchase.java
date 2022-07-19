@@ -25,8 +25,8 @@ public class STAXPurchase {
 
         try {
             XMLInputFactory factory = XMLInputFactory.newInstance();
-//            FileReader file = new FileReader("D:\\ki8\\HistoryPurchase.xml");
-            FileReader file = new FileReader("..\\..\\HistoryPurchase.xml");
+            FileReader file = new FileReader("D:\\ki8\\HistoryPurchase.xml");
+//            FileReader file = new FileReader("HistoryPurchase.xml");
             XMLStreamReader reader = factory.createXMLStreamReader(file);
 
             while (reader.hasNext()) {
