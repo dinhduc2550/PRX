@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <accounts>
 <account>
-<id>3</id>
+<id>1</id>
 <userName>thanhdang</userName>
 <pass>321</pass>
 <role>admin</role>
@@ -9,7 +9,7 @@
 </account>
 
 <account>
-<id>3</id>
+<id>2</id>
 <userName>dinhduc</userName>
 <pass>123</pass>
 <role>cus</role>
@@ -19,7 +19,7 @@
 <account>
 <id>3</id>
 <userName>san</userName>
-<pass>1</pass>
+<pa>1</pass>
 <role>sale</role>
 <isActive>1</isActive>
 </account>

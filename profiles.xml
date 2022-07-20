@@ -8,4 +8,23 @@
         <address>Quang Ninh</address>
         <date>2000-14-10</date>
     </profile>
+	
+	    <profile>
+        <id>2</id>
+        <name>Dinh Duc</name>
+        <phone>098888888</phone>
+        <gender>Male</gender>
+        <address>Ha Noi</address>
+        <date>2000-14-10</date>
+    </profile>
+	
+	
+	    <profile>
+        <id>3</id>
+        <name>San</name>
+        <phone>099999999</phone>
+        <gender>Female</gender>
+        <address>Hoa lac</address>
+        <date>2000-14-10</date>
+    </profile>
 </profiles>
