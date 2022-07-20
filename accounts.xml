@@ -19,7 +19,7 @@
 <account>
 <id>3</id>
 <userName>san</userName>
-<pa>1</pass>
+<pass>1</pass>
 <role>sale</role>
 <isActive>1</isActive>
 </account>
