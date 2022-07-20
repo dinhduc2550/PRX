@@ -65,7 +65,6 @@ public class showCart1 extends HttpServlet {
                 response.sendRedirect("login");
             } else {
                 DAOProduct dp = new DAOProduct();
-                DAONews d = new DAONews();
                 for (Cookie c : cookies) {
                     if (c.getName().equals("id")) {
 //                    System.out.println(c.getName());

@@ -37,7 +37,6 @@ public class subToCart extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         System.out.println("*****************************************");
         String id = request.getParameter("id");
-        DAOProduct d = new DAOProduct();
         String pid = id+"";
         System.out.println("id: " + id);
         Cookie arr[] = request.getCookies();

@@ -7,16 +7,26 @@ package DAO;
 
 import connection.DBConnection;
 import entity.History;
+import entity.ListHistory;
 import entity.News;
 import entity.Product;
+import helper.JAXBHelper;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Vector;
+import java.util.function.Predicate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import javax.xml.bind.JAXBException;
+import path.PathFile;
 
 /**
  *
@@ -97,36 +107,52 @@ public class DAOHistory {
         return v;
     }
 
-    public Vector<History> getHistoryPurchase(int numRows, String uname) {
-        Vector<History> v = new Vector<>();
-        String sql = "SELECT HE141081_ducdv_Account.AccountID,\n"
-                + "		HE141081_ducdv_Account.UserName,\n"
-                + "		HE141081_ducdv_HistoryBuy.ProductID,\n"
-                + "		dbo.HE141081_ducdv_HistoryBuy.Amount,\n"
-                + "		Price,Total,purchaseDate\n"
-                + " FROM dbo.HE141081_ducdv_HistoryBuy\n"
-                + "INNER JOIN dbo.HE141081_ducdv_Account ON HE141081_ducdv_HistoryBuy.AccountID = HE141081_ducdv_Account.AccountID WHERE UserName = ?\n"
-                + "ORDER BY Total DESC, purchaseDate ASC, purchaseID OFFSET ? ROWS FETCH NEXT 6 ROW ONLY";
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, uname);
-            ps.setInt(2, numRows);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                int aID = rs.getInt(1);
-                String username = rs.getString(2);
-                int pID = rs.getInt(3);
-                int amount = rs.getInt(4);
-                float price = rs.getFloat(5);
-                float total = rs.getFloat(6);
-                Date date = rs.getDate(7);
-                v.add(new History(aID, pID, amount, price, total, date, username));
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(DAOHistory.class.getName()).log(Level.SEVERE, null, ex);
+//    public Vector<History> getHistoryPurchase(int numRows, String uname) throws JAXBException, JAXBException, JAXBException {
+//        Vector<History> v = new Vector<>();
+//        String sql = "SELECT HE141081_ducdv_Account.AccountID,\n"
+//                + "		HE141081_ducdv_Account.UserName,\n"
+//                + "		HE141081_ducdv_HistoryBuy.ProductID,\n"
+//                + "		dbo.HE141081_ducdv_HistoryBuy.Amount,\n"
+//                + "		Price,Total,purchaseDate\n"
+//                + " FROM dbo.HE141081_ducdv_HistoryBuy\n"
+//                + "INNER JOIN dbo.HE141081_ducdv_Account ON HE141081_ducdv_HistoryBuy.AccountID = HE141081_ducdv_Account.AccountID WHERE UserName = ?\n"
+//                + "ORDER BY Total DESC, purchaseDate ASC, purchaseID OFFSET ? ROWS FETCH NEXT 6 ROW ONLY";
+//        try {
+//            PreparedStatement ps = conn.prepareStatement(sql);
+//            ps.setString(1, uname);
+//            ps.setInt(2, numRows);
+//            ResultSet rs = ps.executeQuery();
+//            while (rs.next()) {
+//                int aID = rs.getInt(1);
+//                String username = rs.getString(2);
+//                int pID = rs.getInt(3);
+//                int amount = rs.getInt(4);
+//                float price = rs.getFloat(5);
+//                float total = rs.getFloat(6);
+//                Date date = rs.getDate(7);
+//                v.add(new History(aID, pID, amount, price, total, date, username));
+//            }
+//        } catch (SQLException ex) {
+//            Logger.getLogger(DAOHistory.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//        return v;
+//    }
+    
+        public Vector<History> getHistoryPurchase(int numRows, String uname) throws JAXBException{
+            JAXBHelper helper = new JAXBHelper(ListHistory.class);
+            ListHistory listHistory = (ListHistory)helper.readXml(PathFile.HISTORY_XML_FILE_PATH);
+            Predicate<History> p = (t) -> {
+               return t.getUsername().endsWith(uname);
+            };
+            int totalItemPerPage = 6;
+            List<History> listHistoryFilterd = listHistory.getHistory()
+                    .stream()
+                    .filter(p)
+                    .limit(totalItemPerPage)
+                    .skip(numRows*totalItemPerPage)
+                    .collect(Collectors.toList());
+            return new Vector<History>(listHistoryFilterd);
         }
-        return v;
-    }
 
     public Vector<History> getHistoryPurchase(int numRows, String op1, String op2) {
         Vector<History> v = new Vector<>();
@@ -161,25 +187,14 @@ public class DAOHistory {
     }
 
     //insert to history purchase
-    public void insertPurcase(Product n,int uid,int pid,String phone,String address,String name,int amount,float price) {
-        String sql = "INSERT INTO dbo.HE141081_ducdv_HistoryBuy\n" +
-"VALUES  ( ? ,  ? ,   ? ,  ? ,?, GETDATE(),  ?,?,?)";
-        try {
-            PreparedStatement ps =conn.prepareStatement(sql);
-            ps.setInt(1, uid);
-            ps.setInt(2, pid);
-            ps.setInt(3, n.getAmount());
-            ps.setFloat(4, n.getPrice());
-            float total = price*(float)amount;
-            ps.setFloat(5, total);
-            ps.setString(6, address);
-            ps.setString(7, name);
-            ps.setString(8, phone);
-            ps.execute();
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
+    public void insertPurcase(ListHistory history) throws JAXBException {
+        JAXBHelper helper = new JAXBHelper(ListHistory.class);
+        ListHistory parseToHistory = (ListHistory)helper.readXml(PathFile.HISTORY_XML_FILE_PATH);
+        List<History> listHistory = parseToHistory.getHistory();
+            listHistory.addAll(history.getHistory());
+            helper.writeXml(PathFile.HISTORY_XML_FILE_PATH, listHistory);
     }
+    
 
     public static void main(String[] args) {
         DAOHistory d = new DAOHistory();
