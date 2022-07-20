@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Administrator
  */
 
-@XmlRootElement(name = "userProfile")
+@XmlRootElement(name = "profile")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class UserProfile {
     private int id;

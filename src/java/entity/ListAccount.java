@@ -5,7 +5,6 @@
  */
 package entity;
 
-import entity.Account;
 import java.util.ArrayList;
 import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;

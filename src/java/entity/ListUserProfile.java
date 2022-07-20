@@ -14,20 +14,24 @@ import javax.xml.bind.annotation.XmlRootElement;
  *
  * @author Administrator
  */
-@XmlRootElement(name = "userProfile")
+@XmlRootElement(name = "profiles")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ListUserProfile {
-    private List<UserProfile> listUserProfiles;
+    private List<UserProfile> profile;
 
-    public ListUserProfile(List<UserProfile> listUserProfiles) {
-        this.listUserProfiles = listUserProfiles;
+    public ListUserProfile() {
+    }
+    
+
+    public ListUserProfile(List<UserProfile> profile) {
+        this.profile = profile;
     }
     
     public List<UserProfile> getUserProfiles() {
-        return listUserProfiles;
+        return profile;
     }
 
-    public void setUserProfiles(List<UserProfile> listUserProfiles) {
-        this.listUserProfiles = listUserProfiles;
+    public void setUserProfiles(List<UserProfile> profile) {
+        this.profile = profile;
     }
 }
