@@ -96,10 +96,10 @@
                                                         </c:if>
                                                     </td>
                                                     <td>
-                                                        <c:if test="${a.active == '1'}">
+                                                        <c:if test="${a.isActive == '1'}">
                                                             <p class="text-success">Activated</p>
                                                         </c:if>
-                                                        <c:if test="${a.active == '0'}">
+                                                        <c:if test="${a.isActive == '0'}">
                                                             <p class="text-danger">Banned</p>
                                                         </c:if>
                                                     </td>

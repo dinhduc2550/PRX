@@ -54,7 +54,7 @@
                             </c:if>
                             <c:if test="${sessionScope.acc!=null}">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="" tabindex="-1" aria-disabled="false">WELCOME BACK <span style="font-weight: bolder;color: green">${sessionScope.acc.name}</span></a>
+                                    <a class="nav-link" href="" tabindex="-1" aria-disabled="false">WELCOME BACK <span style="font-weight: bolder;color: green">${sessionScope.acc.userName}</span></a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="logout" tabindex="-1" aria-disabled="false">Logout</a>
