@@ -6,11 +6,13 @@
 package forCart;
 
 import DAO.ConnectDB;
+import DAO.DAOAccount;
 import DAO.DAONews;
 import DAO.DAOProduct;
 import entity.Account;
 import entity.News;
 import entity.Product;
+import entity.UserInformation;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collections;
@@ -19,6 +21,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -26,6 +30,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.bind.JAXBException;
 
 /**
  *
@@ -118,8 +123,8 @@ public class showCart1 extends HttpServlet {
                 }
                 Account a = (Account) ses.getAttribute("acc");
                 int aid = a.getId();
-                ConnectDB da = new ConnectDB();
-                Account acc = da.getAllAttibute(a.getUserName());
+                DAOAccount da = new DAOAccount();
+                UserInformation acc = da.loadUserInformation(a.getUserName());
 //            System.out.println("99999999999999999999999999999");
                 request.setAttribute("list", v);
                 ses.setAttribute("listPay", v);
@@ -130,6 +135,8 @@ public class showCart1 extends HttpServlet {
                 request.getRequestDispatcher("cart.jsp").forward(request, response);
 //  }
             }
+        } catch (JAXBException ex) {
+            Logger.getLogger(showCart1.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
