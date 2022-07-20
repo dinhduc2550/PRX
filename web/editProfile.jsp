@@ -25,7 +25,7 @@
                 <div class="col-md-3 border-right">
                     <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                         <img width="100%" class="rounded-circle mt-5" src="https://png.pngtree.com/png-vector/20190307/ourlarge/pngtree-vector-edit-profile-icon-png-image_760869.jpg">
-                        <span class="font-weight-bold">${sessionScope.acc.name}</span>
+                        <span class="font-weight-bold">${sessionScope.acc.userName}</span>
                         </span></div>
                 </div>
                 <div class="col-md-5 border-right">

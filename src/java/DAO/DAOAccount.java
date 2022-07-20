@@ -122,39 +122,48 @@ public class DAOAccount {
     public static void writeAccounts(Account account) {
         List<Account> accounts = readAllAccounts();
         accounts.add(account);
-
+        
+        JAXBHelper helper;
         try {
-            XMLOutputFactory factory = XMLOutputFactory.newInstance();
-            XMLStreamWriter streamWriter = factory.createXMLStreamWriter(
-                    new FileOutputStream(PathFile.ACCOUNT_XML_FILE_PATH));
-            streamWriter.writeStartDocument("UTF-8", "1.0");
-            streamWriter.writeCharacters("\n");
-            streamWriter.writeStartElement("accounts");
-
-            for (int i = 0; i < accounts.size(); i++) {
-                streamWriter.writeCharacters("\n\t");
-                Account acc = accounts.get(i);
-                streamWriter.writeStartElement("account");
-
-                writeSimpleElement(streamWriter, "id", String.valueOf(acc.getId()));
-                writeSimpleElement(streamWriter, "userName", acc.getUserName());
-                writeSimpleElement(streamWriter, "pass", acc.getPass());
-                writeSimpleElement(streamWriter, "role", acc.getRole());
-                writeSimpleElement(streamWriter, "isActive", String.valueOf(acc.getIsActive()));
-
-                streamWriter.writeCharacters("\n\t");
-                streamWriter.writeEndElement();
-            }
-            streamWriter.writeCharacters("\n");
-            streamWriter.writeEndElement();
-            streamWriter.flush();
-            streamWriter.close();
-            System.out.println("Success!");
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(DAOAccount.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (XMLStreamException ex) {
+            helper = new JAXBHelper(ListAccount.class);
+            helper.writeXml(PathFile.ACCOUNT_XML_FILE_PATH, accounts);
+        } catch (JAXBException ex) {
             Logger.getLogger(DAOAccount.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+
+//        try {
+//            XMLOutputFactory factory = XMLOutputFactory.newInstance();
+//            XMLStreamWriter streamWriter = factory.createXMLStreamWriter(
+//                    new FileOutputStream(PathFile.ACCOUNT_XML_FILE_PATH));
+//            streamWriter.writeStartDocument("UTF-8", "1.0");
+//            streamWriter.writeCharacters("\n");
+//            streamWriter.writeStartElement("accounts");
+//
+//            for (int i = 0; i < accounts.size(); i++) { 
+//                streamWriter.writeCharacters("\n\t");
+//                Account acc = accounts.get(i);
+//                streamWriter.writeStartElement("account");
+//
+//                writeSimpleElement(streamWriter, "id", String.valueOf(acc.getId()));
+//                writeSimpleElement(streamWriter, "userName", acc.getUserName());
+//                writeSimpleElement(streamWriter, "pass", acc.getPass());
+//                writeSimpleElement(streamWriter, "role", acc.getRole());
+//                writeSimpleElement(streamWriter, "isActive", String.valueOf(acc.getIsActive()));
+//
+//                streamWriter.writeCharacters("\n\t");
+//                streamWriter.writeEndElement();
+//            }
+//            streamWriter.writeCharacters("\n");
+//            streamWriter.writeEndElement();
+//            streamWriter.flush();
+//            streamWriter.close();
+//            System.out.println("Success!");
+//        } catch (FileNotFoundException ex) {
+//            Logger.getLogger(DAOAccount.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (XMLStreamException ex) {
+//            Logger.getLogger(DAOAccount.class.getName()).log(Level.SEVERE, null, ex);
+//        }
 
     }
 
@@ -172,12 +181,14 @@ public class DAOAccount {
     public int changePass(String oldPass, String newPass, int id) throws JAXBException {
         JAXBHelper helperAccount = new JAXBHelper(ListAccount.class);
         ListAccount listAccount = helperAccount.readXml(PathFile.ACCOUNT_XML_FILE_PATH);
-
+        System.out.println("");
         for (Account account : listAccount.getAccounts()) {
-            if (!account.getPass().equals(oldPass)) {
-                return -1;
+            if (account.getId() == id) {
+                if (!account.getPass().equals(oldPass)) {
+                    return -1;
+                }
+                account.setPass(newPass);
             }
-            account.setPass(newPass);
         }
         helperAccount.writeXml(PathFile.ACCOUNT_XML_FILE_PATH, listAccount);
         return 1;

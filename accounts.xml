@@ -1,28 +1,38 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version='1.0' encoding='UTF-8'?>
 <accounts>
-<account>
-<id>1</id>
-<userName>thanhdang</userName>
-<pass>321</pass>
-<role>admin</role>
-<isActive>1</isActive>
-</account>
-
-<account>
-<id>2</id>
-<userName>dinhduc</userName>
-<pass>123</pass>
-<role>cus</role>
-<isActive>1</isActive>
-</account>
-
-<account>
-<id>3</id>
-<userName>san</userName>
-<pass>1</pass>
-<role>sale</role>
-<isActive>1</isActive>
-</account>
-
-
+	<account>
+		<id>1</id>
+		<userName>thanhdang</userName>
+		<pass>Thanhthanh2k</pass>
+		<role>cus</role>
+		<isActive>1</isActive>
+	</account>
+	<account>
+		<id>2</id>
+		<userName>dinhduc</userName>
+		<pass>Thanhthanh2k</pass>
+		<role>cus</role>
+		<isActive>1</isActive>
+	</account>
+	<account>
+		<id>3</id>
+		<userName>san</userName>
+		<pass>Thanhthanh2k</pass>
+		<role>cus</role>
+		<isActive>1</isActive>
+	</account>
+	<account>
+		<id>4</id>
+		<userName>thanh123</userName>
+		<pass>Thanhthanh2k</pass>
+		<role>cus</role>
+		<isActive>1</isActive>
+	</account>
+	<account>
+		<id>5</id>
+		<userName>thanh1231</userName>
+		<pass>123</pass>
+		<role>cus</role>
+		<isActive>1</isActive>
+	</account>
 </accounts>
