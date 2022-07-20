@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.xml.bind.JAXBException;
+import path.PathFile;
 
 @WebServlet(name = "login", urlPatterns = {"/login"})
 public class login extends HttpServlet {
@@ -80,6 +81,8 @@ public class login extends HttpServlet {
         String name = request.getParameter("uname");
         String psw = request.getParameter("psw");
         String rm = request.getParameter("remember");
+        System.out.println("PASS : " + psw);
+        System.out.println("NAME : " + name);
         if (name.equals("") || psw.equals("")) {
             request.setAttribute("mess", "Please!Fill in the blanks completely");
             request.getRequestDispatcher("login.jsp").forward(request, response);
@@ -121,7 +124,7 @@ public class login extends HttpServlet {
 
     public Account login(String name, String pass) throws JAXBException {
         JAXBHelper helper = new JAXBHelper(ListAccount.class);
-        ListAccount listAccount = (ListAccount) helper.readXml("accounts.xml");
+        ListAccount listAccount = (ListAccount) helper.readXml(PathFile.ACCOUNT_XML_FILE_PATH);
         for (Account accountXml : listAccount.getAccounts()) {
             if (accountXml.getUserName().equals(name) && accountXml.getPass().equals(pass)) {
                 return accountXml;
