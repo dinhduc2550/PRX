@@ -10,10 +10,19 @@ import entity.News;
 import DAO.DAONews;
 import DAO.DAOProduct;
 import entity.Account;
+import entity.History;
+import entity.ListHistory;
 import entity.Product;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -21,6 +30,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.bind.JAXBException;
 
 /**
  *
@@ -69,7 +79,7 @@ public class checkout extends HttpServlet {
                 }
                 v.get(i).setAmount(count);
                 for (int j = i + 1; j < v.size(); j++) {
-                    if (v.get(i).getpID()== v.get(j).getpID()) {
+                    if (v.get(i).getpID() == v.get(j).getpID()) {
                         count++;
                         v.remove(j);
                         j--;
@@ -99,14 +109,21 @@ public class checkout extends HttpServlet {
                 int uid = a.getId();
 //                System.out.println("user ID: " + a.getId());
                 DAOHistory dh = new DAOHistory();
+                List<History> batch = new ArrayList<>();
                 for (Product product : v) {
 //                    System.out.println(news.getProductName());
 //                    System.out.println(news.getId());
-                    dh.insertPurcase(product, uid, product.getpID(),phone,address,name,product.getAmount(),product.getPrice());
+                    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+                    Date date = new Date();
+                    batch.add(new History(uid, product.getpID(), product.getAmount(), product.getPrice(),
+                            product.getAmount() * product.getPrice(), dateFormat.format(date), a.getUserName(), address, phone));
 //                    System.out.println(d.getpIDbynID(news.getId()));
 //                    System.out.println(news.getPrice());
 //                    System.out.println(news.getAmount());
                 }
+                ListHistory history = new ListHistory();
+                history.setHistory(batch);
+                dh.insertPurcase(history);
 
 //            System.out.println("total: "+request.getAttribute("total"));
                 for (Cookie o : cookies) {
@@ -117,7 +134,9 @@ public class checkout extends HttpServlet {
                 }
                 response.sendRedirect("home");
             }
-            
+
+        } catch (JAXBException ex) {
+            Logger.getLogger(checkout.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

@@ -35,10 +35,8 @@ import path.PathFile;
  */
 public class DAOProduct {
 
-    private final String PATH_DATA_PRODUCT = "I:\\PRX301\\MyProject\\data.xml";
-
     public Vector<Product> getListProductFromXML(int position) {
-        File file = new File(PATH_DATA_PRODUCT);
+        File file = new File(PathFile.PATH_DATA_PRODUCTS);
         Vector<Product> listProduct = new Vector<>();
         try {
             XMLInputFactory factory = XMLInputFactory.newFactory();

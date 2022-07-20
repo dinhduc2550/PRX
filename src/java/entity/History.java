@@ -6,21 +6,38 @@
 package entity;
 
 import java.sql.Date;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author dinhd
  */
+@XmlRootElement(name = "history")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class History {
     private int aID,pID;
     private int amount;
     private float price,total;
-    private Date date;
+    private String date;
     private String username;
-    public History() {
-    }
+    private String address;
+    private String phone;
 
-    public History(int aID, int pID, int amount, float price, float total, Date date) {
+    public History(int aID, int pID, int amount, float price, float total, String date, String username, String address, String phone) {
+        this.aID = aID;
+        this.pID = pID;
+        this.amount = amount;
+        this.price = price;
+        this.total = total;
+        this.date = date;
+        this.username = username;
+        this.address = address;
+        this.phone = phone;
+    }
+    
+    public History(int aID, int pID, int amount, float price, float total, String date) {
         this.aID = aID;
         this.pID = pID;
         this.amount = amount;
@@ -30,7 +47,7 @@ public class History {
     }
 
     public History(int aID, int pID, int amount, float price, 
-            float total, Date date, String username) {
+            float total, String date, String username) {
         this.aID = aID;
         this.pID = pID;
         this.amount = amount;
@@ -80,11 +97,11 @@ public class History {
         this.total = total;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
