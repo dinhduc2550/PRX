@@ -11,6 +11,7 @@ import entity.ListUserProfile;
 import entity.UserInformation;
 import entity.UserProfile;
 import helper.JAXBHelper;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -31,6 +32,12 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.stream.XMLStreamWriter;
 import path.PathFile;
+import org.w3c.dom.*;
+import javax.xml.parsers.*;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 /**
  *
@@ -373,6 +380,48 @@ public class DAOAccount {
                 return getInformations;
         }
         return null;
+    }
+    
+    public int updateAccount(Account acc) throws JAXBException {
+        int id = acc.getId();
+        String userName = acc.getUserName();
+        String pass = acc.getPass();
+        String roll = acc.getRole();
+        int isActive = acc.getIsActive();
+
+        JAXBHelper helperForAccount = new JAXBHelper(ListAccount.class);
+
+        ListAccount listAccount = (ListAccount) helperForAccount.readXml(PathFile.ACCOUNT_XML_FILE_PATH);
+        AtomicInteger atomicInt = new AtomicInteger(-1);
+        listAccount.getAccounts().forEach(
+                account -> {
+                    if (account.getId() == id) {
+                        account.setUserName(userName);
+                        account.setPass(pass);
+                        account.setRole(roll);
+                        account.setIsActive(isActive);
+                    }
+                });
+        return atomicInt.get();
+    }
+    
+    public void deleteAccount(int id){
+        try {
+           File inputFile = new File(PathFile.ACCOUNT_XML_FILE_PATH);
+           DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+           DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+           Document doc = docBuilder.parse(inputFile);
+           Node accounts = doc.getFirstChild();
+           Node acc = doc.getElementsByTagName("account").item(id);
+           accounts.removeChild(acc);
+           TransformerFactory transformerFactory = TransformerFactory.newInstance();
+           Transformer transformer = transformerFactory.newTransformer();
+           DOMSource source = new DOMSource(doc);
+           StreamResult consoleResult = new StreamResult(System.out);
+           transformer.transform(source, consoleResult);
+        } catch (Exception e) {
+           e.printStackTrace();
+        }
     }
 
 }
