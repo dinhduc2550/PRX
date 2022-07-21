@@ -9,8 +9,11 @@ import DAO.ConnectDB;
 import DAO.DAOHistory;
 import entity.Account;
 import entity.History;
+import helper.STAXPurchase;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -40,27 +43,29 @@ public class purchaseControl extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            HttpSession ses = request.getSession();
-            Account a = (Account) ses.getAttribute("acc");
-            if (a == null || ses.getAttribute("acc") == null) {
-                response.sendRedirect("login");
-                return;
-            }
-            ConnectDB c = new ConnectDB();
+//            HttpSession ses = request.getSession();
+//            Account a = (Account) ses.getAttribute("acc");
+//            if (a == null || ses.getAttribute("acc") == null) {
+//                response.sendRedirect("login");
+//                return;
+//            }
+            STAXPurchase purchase = new STAXPurchase();
+            List<History> l = purchase.getAllPurchases();
 
-            int count = c.countAcc();
-            DAOHistory dH = new DAOHistory();
-            Vector<History> h = dH.getHistoryPurchase(0);
-            int countSold = dH.countHistoryPurchase();
-            float total = dH.totalPurchase();
+            int count = 3;
+            int countSold = l.size();
+            float total = 0f;
+            for (History history : l) {
+                total += history.getPrice();
+            }
             request.setAttribute("count", count);
             request.setAttribute("sold", countSold);
             request.setAttribute("total", total);
-            request.setAttribute("vectorH", h);
+            request.setAttribute("vectorH", l);
             request.getRequestDispatcher("history.jsp").forward(request, response);
         }
     }
-
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
